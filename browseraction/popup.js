@@ -60,6 +60,8 @@ function click(e) {
 	chrome.tabs.getSelected(null, function(tab){
 		var type = document.querySelector('#byPlayer').checked ? "player" : "popup";
 		var player = document.querySelector('#playerName').value;
+		chrome.storage.local.set({'player':  player});
+		
         chrome.tabs.sendMessage(tab.id,{type: type, faction: e.target.id, sameLine: document.querySelector('#sameLine').checked, player: player}, loadChart);
 		chrome.browserAction.setBadgeText({text: e.target.id == "All" ? "All" : e.target.id.charAt(0).toUpperCase()});
     });
@@ -148,12 +150,11 @@ $(document).ready(function(){
 		}
     });
 	
-	var divs = document.querySelectorAll('.factions div');
-	for (var i = 0; i < divs.length; i++) {
-		divs[i].addEventListener('click', click);
-	}
-	document.getElementById('playLink').addEventListener('click', playClick);
-	document.getElementById('soundAlert').addEventListener('click', alertClick);
+	chrome.storage.local.get('player', function (result) {
+		if(result.player){
+			document.querySelector('#playerName').value = result.player;
+		}
+	});
 	
 	chrome.storage.local.get('alert', function (result) {
 		if(result.alert == undefined){
@@ -162,4 +163,11 @@ $(document).ready(function(){
 		}
 		document.getElementById('soundAlert').checked = result.alert;
 	});
+	
+	var divs = document.querySelectorAll('.factions div');
+	for (var i = 0; i < divs.length; i++) {
+		divs[i].addEventListener('click', click);
+	}
+	document.getElementById('playLink').addEventListener('click', playClick);
+	document.getElementById('soundAlert').addEventListener('click', alertClick);
 });
