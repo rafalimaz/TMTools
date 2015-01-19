@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Filter match by faction</title>
+    <style>
+    body {
+      overflow: hidden;
+      margin: 0px;
+      padding: 0px;
+      background: white;
+	  width: 700px;
+    }
+
+    .factions div:first-child {
+      margin-top: 0px;
+    }
+
+    .factions div {
+      cursor: pointer;
+      text-align: center;
+      padding: 1px 3px;
+      font-family: sans-serif;
+      font-size: 1em;
+      width: 100px;
+      margin-top: 1px;
+	  border: 1px solid black;
+    }
+    .factions div:hover {
+        text-decoration: underline;
+    }
+    .red {
+		color: rgb(0, 0, 0); background-color: rgb(240, 128, 128);
+    }	
+    .black {
+		color: rgb(192, 192, 192); background-color: rgb(64, 64, 64);
+    }	
+    .green {
+		color: rgb(0, 0, 0); background-color: rgb(128, 240, 128);
+    }	
+    .yellow {
+		color: rgb(0, 0, 0); background-color: rgb(240, 240, 128);
+    }			
+	.brown {
+		color: rgb(0, 0, 0); background-color: rgb(176, 128, 64);
+	}	
+	.gray {
+		color: rgb(0, 0, 0); background-color: rgb(192, 192, 192);
+	}	
+	.blue {
+		color: rgb(0, 0, 0); background-color: rgb(96, 192, 240);
+	}
+	.orange{
+		color: rgb(0, 0, 0); background-color: rgb(240, 192, 96);
+	}
+	.white{
+		color: rgb(0, 0, 0); background-color: rgb(224, 240, 255);
+	}
+	.neutral{
+		color: rgb(0, 0, 0); background-color: rgb(255, 235, 205);
+	}
+	.transparent {
+		color: inherit;
+	}	
+	input[type=checkbox]{
+		position:relative; 
+		top:2px
+	}
+	
+    </style>
+	<script src="../canvasjs/canvasjs.min.js"></script>
+	<script src="../jquery-1.9.1.min.js"></script>
+    <script src="popup.js"></script>
+	
+  </head>
+  <body>
+	<fieldset class="actions" style="width: 540px; float: left; height: 40px">	
+		<legend>Options</legend>
+		<label for="soundAlert" title="Play sound alert for new games" style="margin: 5px"><input id="soundAlert" type="checkbox" checked="checked"/>Alert</label> 
+		<label for="byPlayer" title="Filter games by searched player" style="margin: 5px"><input id="byPlayer" type="checkbox" checked="checked"/>Filter</label> 
+		<a id="playLink" href="http://terra.snellman.net" target="_blank" style="float:right;margin-right: 5px">Play</a>
+	</fieldset>	
+	<fieldset class="player" style="float: left; height: 40px">	
+		<legend>Player</legend>
+		<div style="margin-top:0px">
+			<input type="text" id="playerName" value="rafalimaz" style="width: 104px;" />
+		</div>
+	</fieldset>
+	<fieldset class="factions" style="float: right; display: inline-block">	
+		<legend>Faction</legend>	
+		<div id="acolytes" class="orange">Acolytes</div>
+		<div id="alchemists" class="black">Alchemists</div>
+		<div id="auren" class="green">Auren</div>
+		<div id="chaosmagicians" class="red">Chaos Magicians</div>
+		<div id="cultists" class="brown">Cultists</div>
+		<div id="darklings" class="black">Darklings</div>
+		<div id="dragonlords" class="orange">Dragonlords</div>
+		<div id="dwarves" class="gray">Dwarves</div>
+		<div id="engineers" class="gray">Engineers</div>
+		<div id="fakirs" class="yellow">Fakirs</div>
+		<div id="giants" class="red">Giants</div>
+		<div id="halflings" class="brown">Halflings</div>	
+		<div id="icemaidens" class="white">Ice Maidens</div>
+		<div id="mermaids" class="blue">Mermaids</div>
+		<div id="nomads" class="yellow">Nomads</div>
+		<div id="shapeshifters" class="transparent">Shapeshifters</div>
+		<div id="swarmlings" class="blue">Swarmlings</div>
+		<div id="witches" class="green">Witches</div>
+		<div id="riverwalkers" class="transparent">Riverwalkers</div>
+		<div id="yetis" class="white">Yetis</div>
+		<div id="all" class="neutral">All</div>	
+		<label for="sameLine" title="All games on same line" style="margin: 10px"><input id="sameLine" type="checkbox" />Same line</label>
+	</fieldset>
+	
+	<fieldset style="width: 540px; float: left; ">
+		<legend>Statistics</legend>
+		<div id="chartContainer" style="height: 386px; width: 100%;">
+		</div>
+		<span id="oneLeechSpan" style="display: block; visibility: hidden;">One Leech: <strong id="oneLeech"></strong></span>
+		<span id="multLeechSpan" style="display: block; visibility: hidden;">Multiple Leech: <strong id="multLeech"></strong></span>
+	</fieldset>
+  </body>
+</html>
