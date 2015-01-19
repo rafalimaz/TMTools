@@ -1,7 +1,7 @@
 # TMTools
 A helpfull chrome extension for Snellman's Terra Mystica moderator website
 
-In order to use TMTools, download zip file and follow these steps:
+In order to use TMTools, download zip file (https://github.com/rafalimaz/TMTools/archive/master.zip) and follow these steps:
 
 1. Extract the contents somewhere
 2. In Chrome, open chrome://extensions/
