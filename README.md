@@ -17,16 +17,16 @@ In order to use TMTools, download [TMTools](https://github.com/rafalimaz/TMTools
 3. Click + Developer mode
 4. Click Load unpacked extension…
 5. Navigate to the extracted folder and click OK (`..\TMTools-master\TMTools-master`)
-6. Log into [Terra Mystica WebSite](http://terra.snellman.net) (`http://terra.snellman.net/`)
+6. Log into [Terra Mystica Website](http://terra.snellman.net) (`http://terra.snellman.net/`)
 7. An active games counter should appear on browser
 
 #### Main features
 
 1. Browser Notification
-  A **counter** of the games which it is the player's turn appears on the extention browser button.
+  * A **counter** of the games which it is the player's turn appears on the extention browser button.
 
 2. Sound Alert
-  If enabled, a **sound alert** will play every time that is some games which is the player's turn according to the update rate in seconds that is set (default is 30 seconds).
+  * If enabled, a **sound alert** will play every time that is some games which is the player's turn according to the update rate in seconds that is set (default is 30 seconds).
 
 3. Filter games and graphics
   * **By player**: player should open the extension, provide a player name and click on some faction. It will show match data on a graph.
