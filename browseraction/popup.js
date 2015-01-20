@@ -46,32 +46,40 @@ var factions = {
 document.addEventListener('DOMContentLoaded', function () {
 });
 
-function alertClick(e){
+function soundAlertClick(e){
 	var checked = document.querySelector('#soundAlert').checked;
 	chrome.storage.local.set({'alert':  checked});
 	chrome.extension.sendMessage({directive: "popup-click" , stopSound: !checked }, function(response) { });
 }
 
-function playClick(e) {
+function playLinkClick(e) {
     chrome.extension.sendMessage({directive: "popup-click", stopSound: true}, function(response) { });
 }
 
-function click(e) {	
+function playerNameMouseOut(e) {
+	var playerName = document.querySelector('#playerName').value;
+	chrome.storage.local.set({'playerName':  playerName});
+}
+
+function soundUpdateMouseOut(e) {
+	var soundUpdate = document.querySelector('#soundUpdate').value;
+	if(soundUpdate == "" || !isNaN(parseInt(soundUpdate))){
+		chrome.storage.local.set({'soundUpdate':  soundUpdate});
+	} else {
+		alert("update rate must be an integer");
+		chrome.storage.local.get('soundUpdate', function (result) {
+			document.querySelector('#soundUpdate').value = result.soundUpdate ? result.soundUpdate : "";
+		});
+	}
+}
+
+function factionClick(e) {	
 	chrome.tabs.getSelected(null, function(tab){
 		var type = document.querySelector('#byPlayer').checked ? "player" : "popup";
 		var player = document.querySelector('#playerName').value;
-		chrome.storage.local.set({'player':  player});
-		
         chrome.tabs.sendMessage(tab.id,{type: type, faction: e.target.id, sameLine: document.querySelector('#sameLine').checked, player: player}, loadChart);
 		chrome.browserAction.setBadgeText({text: e.target.id == "All" ? "All" : e.target.id.charAt(0).toUpperCase()});
     });
-}
-
-function flowClick(e) {
-	chrome.tabs.getSelected(null, function(tab){
-	    chrome.tabs.sendMessage(tab.id, {type: e.target.id});
-		chrome.browserAction.setBadgeText({text: e.target.id});
-	});
 }
 
 function loadChart(chartData) {
@@ -144,30 +152,46 @@ function loadChart(chartData) {
 }
 
 $(document).ready(function(){
-	chrome.storage.local.get('link', function (result) {
-		if(result.link){
-			document.querySelector('#playLink').href = result.link;
-		}
+	chrome.storage.local.get('playLink', function (result) {
+		$('#playLink').attr("href", result.playLink ? result.playLink : "");
     });
 	
-	chrome.storage.local.get('player', function (result) {
-		if(result.player){
-			document.querySelector('#playerName').value = result.player;
-		}
+	chrome.storage.local.get('playerName', function (result) {
+		$('#playerName').val(result.playerName ? result.playerName : "");
+	});
+	
+	chrome.storage.local.get('soundUpdate', function (result) {
+		$('#soundUpdate').val(result.soundUpdate ? result.soundUpdate : "");
+	});
+	
+	chrome.storage.local.get('filter', function (result) {
+		var value = result.filter ? result.filter : "bySite";
+		$('input:radio[name=filter]').filter('[value=' + value + ']').prop('checked', true);
+		$('#playerName').prop("disabled", value == "bySite");
 	});
 	
 	chrome.storage.local.get('alert', function (result) {
-		if(result.alert == undefined){
-			chrome.storage.local.set({'alert': true });
-			result.alert = true;
-		}
-		document.getElementById('soundAlert').checked = result.alert;
+		var alert = result.alert ? result.alert : true;
+		$('#soundAlert').prop('checked', alert);
+	});
+	
+	$("#byPlayer").change(function(){
+		$('#playerName').prop("disabled", false);
+		chrome.storage.local.set({'filter': "byPlayer" });
+	});
+	
+	$("#bySite").change(function(){
+		$('#playerName').prop("disabled", true);
+		chrome.storage.local.set({'filter': "bySite" });
 	});
 	
 	var divs = document.querySelectorAll('.factions div');
 	for (var i = 0; i < divs.length; i++) {
-		divs[i].addEventListener('click', click);
+		divs[i].addEventListener('click', factionClick);
 	}
-	document.getElementById('playLink').addEventListener('click', playClick);
-	document.getElementById('soundAlert').addEventListener('click', alertClick);
+	
+	document.getElementById('playLink').addEventListener('click', playLinkClick);
+	document.getElementById('playerName').addEventListener('mouseout', playerNameMouseOut);
+	document.getElementById('soundAlert').addEventListener('click', soundAlertClick);
+	document.getElementById('soundUpdate').addEventListener('mouseout', soundUpdateMouseOut);
 });

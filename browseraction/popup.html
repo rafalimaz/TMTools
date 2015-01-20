@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Filter match by faction</title>
+    <title>TM Tools</title>
     <style>
     body {
       overflow: hidden;
@@ -73,18 +73,26 @@
 	
   </head>
   <body>
-	<fieldset class="actions" style="width: 540px; float: left; height: 40px">	
+	<fieldset class="options" style="width: 231px; float: left; height: 40px">	
 		<legend>Options</legend>
-		<label for="soundAlert" title="Play sound alert for new games" style="margin: 5px"><input id="soundAlert" type="checkbox" checked="checked"/>Alert</label> 
-		<label for="byPlayer" title="Filter games by searched player" style="margin: 5px"><input id="byPlayer" type="checkbox" checked="checked"/>Filter</label> 
-		<a id="playLink" href="http://terra.snellman.net" target="_blank" style="float:right;margin-right: 5px">Play</a>
+		<label for="soundAlert" title="Enable sound alert when it's your turn" style="margin: 5px"><input id="soundAlert" type="checkbox" checked="checked"/>Sound Alert</label> 
+		<label for="soundUpdate" title="Set update rate (in seconds) for searching new games" style="margin: 5px"><input id="soundUpdate" type="text" value="30" style="width:29px" /><span style="margin-left:2px">Update rate (s)</span></label> 
+	</fieldset>	
+	<fieldset class="filter" style="float: left; height: 40px">	
+		<legend>Filter</legend>
+		<label for="byPlayer" title="Filter games by searched player" style="margin: 5px"><input id="byPlayer" name="filter" type="radio" value="byPlayer"/>By Player</label> 		
+		<label for="bySite" title="Filter games on site page" style="margin: 5px"><input id="bySite" name="filter" type="radio" value="bySite"/>By Site</label> 
 	</fieldset>	
 	<fieldset class="player" style="float: left; height: 40px">	
 		<legend>Player</legend>
 		<div style="margin-top:0px">
-			<input type="text" id="playerName" value="" style="width: 104px;" />
+			<input type="text" id="playerName" style="width: 104px;" />
 		</div>
 	</fieldset>
+	<fieldset class="play" style="width: 108px;float: left; height: 40px">	
+		<legend>Play</legend>
+		<a id="playLink" href="http://terra.snellman.net" target="_blank" style="margin-left: 28px">Go to site</a>
+	</fieldset>	
 	<fieldset class="factions" style="float: right; display: inline-block">	
 		<legend>Faction</legend>	
 		<div id="acolytes" class="orange">Acolytes</div>

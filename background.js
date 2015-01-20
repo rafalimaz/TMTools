@@ -47,7 +47,7 @@ function getCounter(token)
 				if(audio && count == 0){
 					audio.pause();
 				}				
-				chrome.storage.local.set({'link': link });
+				chrome.storage.local.set({'playLink': link });
 				chrome.browserAction.setBadgeText({text: count.toString()});
 			});
 		},
@@ -65,16 +65,20 @@ chrome.extension.onMessage.addListener(
 			if(request.stopSound){
 				audio.pause();
 			} 			
-            sendResponse({}); // sending back empty response to sender
+            sendResponse({});
             break;
         default:
-            // helps debug when request directive doesn't match
             alert("Unmatched request of '" + request + "' from script to background.js from " + sender);
         }
     }
 );
 
 $(document).ready(function() {
-	chrome.browserAction.setBadgeText({text: "..."});
-	setInterval(function(){ loadCounter(); }, 30000);
+	chrome.browserAction.setBadgeText({text: "..."});	
+	chrome.storage.local.get('soundUpdate', function (result) {
+		var soundUpdate = result.soundUpdate ? result.soundUpdate : 30;
+		document.querySelector('#soundUpdate').value = 30;
+		setInterval(function(){ loadCounter(); }, soundUpdate);
+		chrome.storage.local.set({'soundUpdate':  soundUpdate});
+	});
 });
