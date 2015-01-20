@@ -28,7 +28,7 @@ In order to use TMTools, download [TMTools](https://github.com/rafalimaz/TMTools
   * **By site** (game log): User should open a game (active or finished). After this, the user should open the extension. By clicking on a faction that is current in play it will filter the log showing only moves from that faction. Also a graph is showed with these moves and score history for that faction.
 
 2. Browser Notification
-  * A **counter** of the games which it is the player's turn appears on the extention browser button. Also there is a **got to site** link that opens the first opened game for the player.
+  * A **counter** of the games which it is the player's turn appears on the extention browser button. Also there is a **go to site** link that opens the first opened game for the player.
  
 3. Sound Alert
   * If enabled, a **sound alert** will play every time that is some games which is the player's turn according to the update rate in seconds that is set (default is 30 seconds).
