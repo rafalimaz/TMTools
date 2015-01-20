@@ -16,7 +16,6 @@ function getCounter(token)
 	if(token){
 		chrome.storage.local.set({'token': token});
 	} else {
-		alert("Error getting games. Token invalid");
 		return;
 	}
 	
@@ -37,7 +36,7 @@ function getCounter(token)
 							if(!audio) {
 								audio = new Audio("alert.mp3");
 							}
-							if(result.alert){
+							if(result.alert == undefined || result.alert){
 								audio.play();
 							}
 						}
@@ -62,7 +61,7 @@ chrome.extension.onMessage.addListener(
     function(request, sender, sendResponse) {
         switch (request.directive) {
         case "popup-click":
-			if(request.stopSound){
+			if(audio && request.stopSound){
 				audio.pause();
 			} 			
             sendResponse({});
@@ -76,9 +75,8 @@ chrome.extension.onMessage.addListener(
 $(document).ready(function() {
 	chrome.browserAction.setBadgeText({text: "..."});	
 	chrome.storage.local.get('soundUpdate', function (result) {
-		var soundUpdate = result.soundUpdate ? result.soundUpdate : 30;
-		document.querySelector('#soundUpdate').value = 30;
-		setInterval(function(){ loadCounter(); }, soundUpdate);
+		var soundUpdate = result.soundUpdate == undefined ? 30 : result.soundUpdate;
+		setInterval(function(){ loadCounter(); }, parseInt(soundUpdate) * 1000);
 		chrome.storage.local.set({'soundUpdate':  soundUpdate});
 	});
 });

@@ -50,6 +50,7 @@ function soundAlertClick(e){
 	var checked = document.querySelector('#soundAlert').checked;
 	chrome.storage.local.set({'alert':  checked});
 	chrome.extension.sendMessage({directive: "popup-click" , stopSound: !checked }, function(response) { });
+	$('#soundUpdate').prop("disabled", !checked);
 }
 
 function playLinkClick(e) {
@@ -68,7 +69,7 @@ function soundUpdateMouseOut(e) {
 	} else {
 		alert("update rate must be an integer");
 		chrome.storage.local.get('soundUpdate', function (result) {
-			document.querySelector('#soundUpdate').value = result.soundUpdate ? result.soundUpdate : "";
+			document.querySelector('#soundUpdate').value = result.soundUpdate == undefined ? "" : result.soundUpdate;
 		});
 	}
 }
@@ -153,26 +154,27 @@ function loadChart(chartData) {
 
 $(document).ready(function(){
 	chrome.storage.local.get('playLink', function (result) {
-		$('#playLink').attr("href", result.playLink ? result.playLink : "");
+		$('#playLink').attr("href", result.playLink == undefined ? "" : result.playLink);
     });
 	
 	chrome.storage.local.get('playerName', function (result) {
-		$('#playerName').val(result.playerName ? result.playerName : "");
+		$('#playerName').val(result.playerName == undefined ? "" : result.playerName);
 	});
 	
 	chrome.storage.local.get('soundUpdate', function (result) {
-		$('#soundUpdate').val(result.soundUpdate ? result.soundUpdate : "");
+		$('#soundUpdate').val(result.soundUpdate == undefined ? 30 : result.soundUpdate);
 	});
 	
 	chrome.storage.local.get('filter', function (result) {
-		var value = result.filter ? result.filter : "bySite";
+		var value = result.filter == undefined ? "bySite" : result.filter;
 		$('input:radio[name=filter]').filter('[value=' + value + ']').prop('checked', true);
 		$('#playerName').prop("disabled", value == "bySite");
 	});
 	
 	chrome.storage.local.get('alert', function (result) {
-		var alert = result.alert ? result.alert : true;
+		var alert = result.alert == undefined ? true : result.alert;
 		$('#soundAlert').prop('checked', alert);
+		$('#soundUpdate').prop("disabled", !alert);
 	});
 	
 	$("#byPlayer").change(function(){
