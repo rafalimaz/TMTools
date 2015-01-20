@@ -23,14 +23,20 @@ In order to use TMTools, download [TMTools](https://github.com/rafalimaz/TMTools
 #### Main features
 
 1. Filter games and graphics
-  * **By player**: player should open the extension, provide a player name and click on some faction. It will show match data on a graph.
+  * **By player**: User should open the extension, provide a player name and click on some faction. It will show match data on a graph.
   * **By site** (finished games): User should open a finished games page of some player that shows a list with all games played. After this, the user should open the extension. By clicking on a faction it will filter that list showing only games for this specific faction. Also a graph is showed with these games.
   * **By site** (game log): User should open a game (active or finished). After this, the user should open the extension. By clicking on a faction that is current in play it will filter the log showing only moves from that faction. Also a graph is showed with these moves and score history for that faction.
 
 2. Browser Notification
-  * A **counter** of the games which it is the player's turn appears on the extention browser button. Also there is a **go to site** link that opens the first opened game for the player.
+  * A **counter** of the games which it is the player's turn appears on the extension browser button. Also there is a **go to site** link that opens the first opened game for the player.
  
 3. Sound Alert
-  * If enabled, a **sound alert** will play every time that is some games which is the player's turn according to the update rate in seconds that is set (default is 30 seconds).
+  * If enabled, a **sound alert** will play every time there are some games which is the player's turn according to the update rate set (default is 30 seconds).
+  
+#### Credits
+Terra Mystica is a trademark of [Feuerland Spiele](http://www.feuerland-spiele.de/en/). Terra Mystica website was created by [Juho Snellman] (https://www.snellman.net/). TMTools extension was created by [Rafael de Lima](http://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K4201844J6)
+
+
+
 
 
