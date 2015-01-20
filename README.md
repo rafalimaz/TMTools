@@ -4,7 +4,7 @@
 
 ### Motivation
 
-The main motivation for building this extension was the need to improve my gameplay. I started to see games from best players of the site and one day I saw a very interesting game from the knowed great player [Xevoc](http://terra.snellman.net/player/Xevoc), the [Petri20](http://terra.snellman.net/game/Petri20). In this game he crossed the 200VP barrier and for me that was the best that I could reach. As my objective was study only his moves I created a simple script (javascript) to filter the log. So that helped me a lot to improve my overall gameplay with [Engineers](http://www.terra-mystica-spiel.de/en/voelker.php?show=8).
+The main motivation for building this extension was the need to improve my gameplay. I started to see games from best players of the site and one day I saw a very interesting game from the knowed great player [Xevoc](http://terra.snellman.net/player/Xevoc), the [Petri20](http://terra.snellman.net/game/Petri20). In this game he crossed the 200VP barrier and for me that was the best that I could reach. As my objective was study only his moves I created a simple script (javascript) to filter the log. So that helped me a lot to improve my overall gameplay with [Engineers](http://www.terra-mystica-spiel.de/en/voelker.php?show=8) (I went from an average of 110VP to a respectable 174VP on a 3 player [game](http://terra.snellman.net/game/TheInvestors])
 
 ### Usage Instructions
 
@@ -13,11 +13,11 @@ The main motivation for building this extension was the need to improve my gamep
 In order to use TMTools, download [TMTools](https://github.com/rafalimaz/TMTools/archive/master.zip) zip file (`https://github.com/rafalimaz/TMTools/archive/master.zip`) and follow these steps:
 
 1. Extract the contents somewhere
-2. In Chrome, open [chrome://extensions/](chrome://extensions/)
+2. In Chrome, open `chrome://extensions/`
 3. Click + Developer mode
 4. Click Load unpacked extension…
-5. Navigate to the extracted folder and click OK (`..\TMTools-master\TMTools-master`)
-6. Log into [Terra Mystica Website](http://terra.snellman.net) (`http://terra.snellman.net/`)
+5. Navigate to the extracted folder and click OK `..\TMTools-master\TMTools-master`
+6. Log into [Terra Mystica website](http://terra.snellman.net) `http://terra.snellman.net/`
 7. An active games counter should appear on browser
 
 #### Main features
