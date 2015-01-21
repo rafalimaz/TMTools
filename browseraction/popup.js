@@ -64,13 +64,14 @@ function playerNameMouseOut(e) {
 
 function soundUpdateMouseOut(e) {
 	var soundUpdate = document.querySelector('#soundUpdate').value;
-	if(soundUpdate == "" || !isNaN(parseInt(soundUpdate))){
-		chrome.storage.local.set({'soundUpdate':  soundUpdate});
-	} else {
+	if(isNaN(parseInt(soundUpdate))){
 		alert("update rate must be an integer");
 		chrome.storage.local.get('soundUpdate', function (result) {
-			document.querySelector('#soundUpdate').value = result.soundUpdate == undefined ? "" : result.soundUpdate;
+			document.querySelector('#soundUpdate').value = (result.soundUpdate == undefined ? 30 : result.soundUpdate);
 		});
+	} else {
+		chrome.storage.local.set({'soundUpdate':  soundUpdate});
+		chrome.extension.sendMessage({directive: "update-sound", stopSound: false}, function(response) { });
 	}
 }
 
@@ -166,13 +167,13 @@ $(document).ready(function(){
 	});
 	
 	chrome.storage.local.get('filter', function (result) {
-		var value = result.filter == undefined ? "bySite" : result.filter;
+		var value = (result.filter == undefined ? "bySite" : result.filter);
 		$('input:radio[name=filter]').filter('[value=' + value + ']').prop('checked', true);
 		$('#playerName').prop("disabled", value == "bySite");
 	});
 	
 	chrome.storage.local.get('alert', function (result) {
-		var alert = result.alert == undefined ? true : result.alert;
+		var alert = (result.alert == undefined ? true : result.alert);
 		$('#soundAlert').prop('checked', alert);
 		$('#soundUpdate').prop("disabled", !alert);
 	});

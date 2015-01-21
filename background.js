@@ -57,6 +57,17 @@ function getCounter(token)
     });
 }
 
+var alertInterval;
+function updateSound(){
+	if(alertInterval) {
+		clearInterval(alertInterval);
+	}
+	chrome.storage.local.get('soundUpdate', function (result) {
+		var soundUpdate = (result.soundUpdate == undefined ? 30 : result.soundUpdate);		
+		alertInterval = setInterval(function(){ loadCounter(); }, parseInt(soundUpdate) * 1000);
+	});
+}
+
 chrome.extension.onMessage.addListener(
     function(request, sender, sendResponse) {
         switch (request.directive) {
@@ -66,6 +77,10 @@ chrome.extension.onMessage.addListener(
 			} 			
             sendResponse({});
             break;
+		case "update-sound": 
+			updateSound();
+			sendResponse({});
+			break;
         default:
             alert("Unmatched request of '" + request + "' from script to background.js from " + sender);
         }
@@ -74,9 +89,5 @@ chrome.extension.onMessage.addListener(
 
 $(document).ready(function() {
 	chrome.browserAction.setBadgeText({text: "..."});	
-	chrome.storage.local.get('soundUpdate', function (result) {
-		var soundUpdate = result.soundUpdate == undefined ? 30 : result.soundUpdate;
-		setInterval(function(){ loadCounter(); }, parseInt(soundUpdate) * 1000);
-		chrome.storage.local.set({'soundUpdate':  soundUpdate});
-	});
+	updateSound();
 });
