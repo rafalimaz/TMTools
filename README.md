@@ -1,6 +1,6 @@
 # TMTools
 
-**TMTools** is a helpfull chrome extension for Snellman's Terra Mystica moderator website. Its is designed to provide some features which are still not implemented on original website like more sound alerts and more flexible filters. Also provides some graphs and statistics to help newcomers evaluate their overall improvement on the game.
+**TMTools** is a helpfull chrome extension for Snellman's Terra Mystica moderator website. Its is designed to provide some features which are still not implemented on original website like more sound alerts and more flexible filters. Also provides some graphs and statistics to help newcomers evaluate their overall improvement on the game. If you have suggestions, doubts or other stuff just contact me on `https://github.com/rafalimaz`
 
 ### Motivation
 
@@ -34,7 +34,7 @@ In order to use TMTools, download [TMTools](https://github.com/rafalimaz/TMTools
   * If enabled, a **sound alert** will play every time there are some games which is the player's turn according to the update rate set (default is 30 seconds).
   
 #### Credits
-Terra Mystica is a trademark of [Feuerland Spiele](http://www.feuerland-spiele.de/en/). Terra Mystica website was created by [Juho Snellman] (https://www.snellman.net/). TMTools extension was created by [Rafael de Lima](http://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K4201844J6)
+Terra Mystica is a trademark of [Feuerland Spiele](http://www.feuerland-spiele.de/en/). Terra Mystica website was created by [Juho Snellman] (https://www.snellman.net/). TMTools extension was created by [Rafael de Lima](https://github.com/rafalimaz)
 
 
 
