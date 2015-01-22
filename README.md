@@ -6,9 +6,7 @@
 
 The main motivation for building this extension was the need to improve my gameplay. I started to see games from best players of the site and one day I saw a very interesting game from the knowed great player [Xevoc](http://terra.snellman.net/player/Xevoc), the [Petri20](http://terra.snellman.net/game/Petri20). In this game he crossed the 200VP barrier and for me that was the best that I could reach. As my objective was study only his moves I created a simple script (javascript) to filter the log. So that helped me a lot to improve my overall gameplay with [Engineers](http://www.terra-mystica-spiel.de/en/voelker.php?show=8) (I went from an average of 110VP to a respectable 174VP on a 3 player [game](http://terra.snellman.net/game/TheInvestors))
 
-### Usage Instructions
-
-#### Installation
+### Installation
 
 In order to use TMTools, download [TMTools](https://github.com/rafalimaz/TMTools/archive/master.zip) zip file (`https://github.com/rafalimaz/TMTools/archive/master.zip`) and follow these steps:
 
@@ -20,7 +18,7 @@ In order to use TMTools, download [TMTools](https://github.com/rafalimaz/TMTools
 6. Log into [Terra Mystica website](http://terra.snellman.net) `http://terra.snellman.net/`
 7. An active games counter should appear on browser
 
-#### Main features
+### Main features
 
 1. Filter games and graphics
   * **By player**: User should open the extension, provide a player name and click on some faction. It will show match data on a graph.
@@ -32,8 +30,17 @@ In order to use TMTools, download [TMTools](https://github.com/rafalimaz/TMTools
  
 3. Sound Alert
   * If enabled, a **sound alert** will play every time there are some games which is the player's turn according to the update rate set (default is 30 seconds).
+
+### Changelog
+
+##### 1.0.0 Initial version (2015-01-19)
+  * Added main features like counter, filters, graphs and sound alert
   
-#### Credits
+##### 1.0.1 Replay function (2015-01-22)
+  * Added replay feature with prev/next buttons
+
+
+### Credits
 Terra Mystica is a trademark of [Feuerland Spiele](http://www.feuerland-spiele.de/en/). Terra Mystica website was created by [Juho Snellman] (https://www.snellman.net/). TMTools extension was created by [Rafael de Lima](https://github.com/rafalimaz)
 
 
