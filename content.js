@@ -1,12 +1,5 @@
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-	var url = window.location.href.split("=");
 	switch(message.type) {
-		case "prev":
-			window.location = url[0] + "=" + (parseInt(url[1]) - 1);
-			break;
-		case "next":
-			window.location = url[0] + "=" + (parseInt(url[1]) + 1);
-			break;
 		case "popup":
 			var gameData = getGameData(message);
 			sendResponse(gameData);
@@ -23,10 +16,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 
 function getGamesInfo(message, sendResponse){
 	chrome.storage.local.get('token', function (result) {
-		var token = result.token;
-		if(token){
-			chrome.storage.local.set({'token': token});
-		} else {
+		var token;
+		if(!result.token){
 			token = getCSRFToken();
 			if(!token) {
 				alert("Error getting games. Token invalid");
@@ -203,3 +194,83 @@ function updateMoves(factionData, maxMoves){
 		}
 	}
 }
+
+var gameData;
+function loadGame(newGameName){
+	chrome.storage.local.get('gameData', function(result) {	
+		gameData = result.gameData;
+		chrome.storage.local.get('currentGameName', function(result) {	
+			if(!gameData || !result.currentGameName || newGameName != result.currentGameName) {
+				chrome.storage.local.get('token', function (result) {
+					var token;
+					if(!result.token){
+						token = getCSRFToken();
+						if(!token) {
+							alert("Error getting game info. Token invalid");
+							return;
+						}
+					}
+					
+					$.ajax({  
+						type: 'POST',
+						async: false,
+						url: "http://terra.snellman.net/app/view-game/",
+						data: {
+							"csrf-token": token,
+							"game": newGameName
+						},
+						success: function(jsonObj) {
+							gameData = jsonObj;
+							currentGameName = newGameName;
+							setupHeader();
+							chrome.storage.local.set({'gameData': gameData});
+							chrome.storage.local.set({'currentGameName': newGameName});
+						}
+					});
+				});
+			} else {
+				setupHeader();
+			}
+		});
+	});
+}
+
+function setupHeader(){
+	var url = window.location.href;
+	var hrefNext; 
+	var hrefNext;
+	var row;
+	if(url.indexOf("max-row") != -1){
+		url = url.split("=");
+		row = parseInt(url[1]);
+		hrefPrev = url[0] + "=" + (row - 1);
+		hrefNext = url[0] + "=" + (row + 1);
+	} else {
+		row = 1;
+		hrefPrev = hrefNext = url + "max-row=" + row;
+	}	
+	
+	var description = (gameData.ledger[row-1].comment ? gameData.ledger[row-1].comment : gameData.ledger[row-1].commands);
+	var descriptionCss = "overflow: hidden;white-space:nowrap;display:inline-block;text-overflow:ellipsis;max-width:190px;";
+	$('#header').find('div').css('min-width', '100px');
+	$('#header').append('<div id="replay" style="margin-left: 50px; float:right"><div style="float:left">' +
+						'<span style="' + descriptionCss + '" title="' + description +'">(' + description + '</span></div>' +
+						'<div style="min-width:90px">)[<a id="prev" href=' + hrefPrev + '>Prev</a>/<a id="next" href=' + hrefNext + '>Next</a>]</div></div>');
+}
+function setupReplayLinks(){
+	var url = window.location.href;
+	var parts = url.split("/");	
+	if(parts[3] == "faction") {
+		loadGame(parts[4]);
+	}
+}
+
+$(document).ready(function(){
+	chrome.storage.local.get('replay', function(result) {
+		var replay = (result.replay == undefined ? true : result.replay);
+		if(replay) {
+			setupReplayLinks();
+			chrome.storage.local.set({'replay': replay });
+		}
+	});
+});

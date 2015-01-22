@@ -1,6 +1,6 @@
 {
   "name": "TM Tools",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "manifest_version": 2,
   "description" : "Some tools to help people who like Terra Mystica enjoy more from the Snellman's platform.",
   "icons": { "16": "icons/16x16.png", "38": "icons/38x38.png", "48": "icons/48x48.png", "128": "icons/128x128.png" },

@@ -53,6 +53,11 @@ function soundAlertClick(e){
 	$('#soundUpdate').prop("disabled", !checked);
 }
 
+function replayEnabledClick(e){
+	var checked = document.querySelector('#replayEnabled').checked;
+	chrome.storage.local.set({'replay':  checked});
+}
+
 function playLinkClick(e) {
     chrome.extension.sendMessage({directive: "popup-click", stopSound: true}, function(response) { });
 }
@@ -178,6 +183,10 @@ $(document).ready(function(){
 		$('#soundUpdate').prop("disabled", !alert);
 	});
 	
+	chrome.storage.local.get('replay', function (result) {
+		$('#replayEnabled').prop('checked', result.replay == undefined ? true : result.replay);
+	});
+	
 	$("#byPlayer").change(function(){
 		$('#playerName').prop("disabled", false);
 		chrome.storage.local.set({'filter': "byPlayer" });
@@ -197,4 +206,5 @@ $(document).ready(function(){
 	document.getElementById('playerName').addEventListener('mouseout', playerNameMouseOut);
 	document.getElementById('soundAlert').addEventListener('click', soundAlertClick);
 	document.getElementById('soundUpdate').addEventListener('mouseout', soundUpdateMouseOut);
+	document.getElementById('replayEnabled').addEventListener('click', replayEnabledClick);
 });
