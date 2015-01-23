@@ -247,15 +247,15 @@ function setupHeader(){
 		hrefNext = url[0] + "=" + (row + 1);
 	} else {
 		row = 1;
-		hrefPrev = hrefNext = url + "max-row=" + row;
+		hrefPrev = hrefNext = url + "/max-row=" + row;
 	}	
 	
 	var description = (gameData.ledger[row-1].comment ? gameData.ledger[row-1].comment : gameData.ledger[row-1].commands);
-	var descriptionCss = "overflow: hidden;white-space:nowrap;display:inline-block;text-overflow:ellipsis;max-width:190px;";
-	$('#header').find('div').css('min-width', '100px');
-	$('#header').append('<div id="replay" style="margin-left: 50px; float:right"><div style="float:left">' +
-						'<span style="' + descriptionCss + '" title="' + description +'">(' + description + '</span></div>' +
-						'<div style="min-width:90px">)[<a id="prev" href=' + hrefPrev + '>Prev</a>/<a id="next" href=' + hrefNext + '>Next</a>]</div></div>');
+	var descriptionCss = "white-space:nowrap;display:inline-block;";
+	var replayCss = "margin-bottom: 5px;background-color: #eee;padding: 5px;border-style: solid;border-width: 1px;max-width: 1045px;";  
+	
+	$('#header').after($('<div id="replay" style="'+ replayCss +'">Replay[<a id="prev" href="' + hrefPrev + '">Prev</a>/<a id="next" href="' + hrefNext + '">Next</a>]' +
+					   '<span style="' + descriptionCss + '" title="' + description +'">&nbsp(' + description + ')</span></div>'));
 }
 function setupReplayLinks(){
 	var url = window.location.href;
