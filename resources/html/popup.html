@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+  <head>
+    <title>TM Tools</title>
+    <link href="../resources/css/style.css" rel="stylesheet" type="text/css" />
+	<script src="../resources/js/canvasjs/canvasjs.min.js" type="text/javascript"></script>
+	<script src="../resources/js/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="popup.js" type="text/javascript"></script>
+  </head>
+  <body>
+	<fieldset class="options">	
+		<legend>Options</legend>
+		<label for="soundAlert" title="Enable sound alert when it's your turn"><input id="soundAlert" type="checkbox" checked="checked"/>Sound Alert</label> 
+		<label for="soundUpdate" title="Set update rate (in seconds) for searching new games" class="label-sound-update">
+			<input id="soundUpdate" type="text" value="30"/><span>Update rate (s)</span>
+		</label> 
+		<label for="replayEnabled" title="Add prev/next links to game header"><input id="replayEnabled" type="checkbox" checked="checked"/>Replay</label>		
+	</fieldset>	
+	<fieldset class="filter">	
+		<legend>Filter</legend>
+		<label for="byPlayer" title="Filter games by searched player" ><input id="byPlayer" name="filter" type="radio" value="byPlayer"/>By Player</label> 		
+		<label for="bySite" title="Filter games on site page"><input id="bySite" name="filter" type="radio" value="bySite"/>By Site</label> 
+	</fieldset>	
+	<fieldset class="player">	
+		<legend>Player</legend>
+		<div><input type="text" id="playerName" /></div>
+	</fieldset>
+	<fieldset class="play">	
+		<legend>Play</legend>
+		<a id="playLink" href="http://terra.snellman.net" target="_blank">Go to site</a>
+	</fieldset>	
+	<fieldset class="factions">	
+		<legend>Faction</legend>	
+		<div id="acolytes" class="orange">Acolytes</div>
+		<div id="alchemists" class="black">Alchemists</div>
+		<div id="auren" class="green">Auren</div>
+		<div id="chaosmagicians" class="red">Chaos Magicians</div>
+		<div id="cultists" class="brown">Cultists</div>
+		<div id="darklings" class="black">Darklings</div>
+		<div id="dragonlords" class="orange">Dragonlords</div>
+		<div id="dwarves" class="gray">Dwarves</div>
+		<div id="engineers" class="gray">Engineers</div>
+		<div id="fakirs" class="yellow">Fakirs</div>
+		<div id="giants" class="red">Giants</div>
+		<div id="halflings" class="brown">Halflings</div>	
+		<div id="icemaidens" class="white">Ice Maidens</div>
+		<div id="mermaids" class="blue">Mermaids</div>
+		<div id="nomads" class="yellow">Nomads</div>
+		<div id="shapeshifters" class="transparent">Shapeshifters</div>
+		<div id="swarmlings" class="blue">Swarmlings</div>
+		<div id="witches" class="green">Witches</div>
+		<div id="riverwalkers" class="transparent">Riverwalkers</div>
+		<div id="yetis" class="white">Yetis</div>
+		<div id="all" class="neutral">All</div>	
+		<label for="sameLine" title="All games on same line"><input id="sameLine" type="checkbox" />Same line</label>
+	</fieldset>
+	
+	<fieldset class="statistics">
+		<legend>Statistics</legend>
+		<div id="chartContainer">
+		</div>
+		<span id="oneLeechSpan">One Leech: <strong id="oneLeech"></strong></span>
+		<span id="multLeechSpan">Multiple Leech: <strong id="multLeech"></strong></span>
+	</fieldset>
+	<div class="footer" align="center">	
+		<a href="http://github.com/rafalimaz/TMTools" target="_blank">TMTools</a> |
+		<a href="http://boardgamegeek.com/thread/1305425/tmtools-chrome-extension-snellman-site" target="_blank">Help/Questions</a> |
+		<a href="http://boardgamegeek.com/filepage/104541/terra-mystica-strategy-reference-guide" target="_blank">TM Strategy Guide</a> |
+		<a href="http://lodev.org/tmai/" target="_blank">TM AI</a>
+	</div>
+  </body>
+</html>
