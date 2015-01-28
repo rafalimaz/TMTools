@@ -40,8 +40,16 @@ In order to use TMTools, download [TMTools](https://github.com/rafalimaz/TMTools
   * Added replay feature with prev/next buttons
 
 
+### Useful Links
+  * [BGG Discussion](http://boardgamegeek.com/thread/1305425/tmtools-chrome-extension-snellman-site)
+  * [Snellman's website](http://terra.snellman.net)
+  * [TM AI](http://lodev.org/tmai/)
+  * [Terra Mystica Strategy Guide](http://boardgamegeek.com/filepage/104541/terra-mystica-strategy-reference-guide)
+  
+
 ### Credits
-Terra Mystica is a trademark of [Feuerland Spiele](http://www.feuerland-spiele.de/en/). Terra Mystica website was created by [Juho Snellman] (https://www.snellman.net/). TMTools extension was created by [Rafael de Lima](https://github.com/rafalimaz)
+Terra Mystica is a trademark of [Feuerland Spiele](http://www.feuerland-spiele.de/en/). Terra Mystica website was created by [Juho Snellman](https://www.snellman.net/). TMTools extension was created by [Rafael de Lima](https://github.com/rafalimaz)
+
 
 
 
