@@ -34,7 +34,7 @@ function getCounter(token)
 						if(count == 1){
 							link += games[i].link;
 							if(!audio) {
-								audio = new Audio("alert.mp3");
+								audio = new Audio("resources/sound/alert.mp3");
 							}
 							if(result.alert == undefined || result.alert){
 								audio.play();
