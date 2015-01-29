@@ -20,11 +20,12 @@ In order to use TMTools, download [TMTools](https://github.com/rafalimaz/TMTools
 
 ### Main features
 
-1. The main page of the extension has all features and links. It was designed that way to make easily find features and settings. It can be seen on the following picture:
+#### Main page
+ * The main page of the extension has all features and links. It was designed that way to make easily find features and settings. It can be seen on the following picture:
 
 ![ScreenShot](https://github.com/rafalimaz/TMTools/blob/master/screenshots/2_mainPage.png)
 
-2. Filter games and graphics
+#### Filter games and graphics
   * **By player**: User should open the extension, provide a player name and click on some faction. It will show match data on a graph.
   
 ![ScreenShot](https://github.com/rafalimaz/TMTools/blob/master/screenshots/4_filterByPlayer.png)
@@ -37,14 +38,12 @@ In order to use TMTools, download [TMTools](https://github.com/rafalimaz/TMTools
 
 ![ScreenShot](https://github.com/rafalimaz/TMTools/blob/master/screenshots/7_filterBySiteGame.png)
 
-![ScreenShot](https://github.com/rafalimaz/TMTools/blob/master/screenshots/8_filterBySiteGameAll.png)
-
-2. Browser Notification
+#### Browser Notification
   * A **counter** of the games which it is the player's turn appears on the extension browser button. Also there is a **go to site** link that opens the first opened game for the player.
   
  ![ScreenShot](https://github.com/rafalimaz/TMTools/blob/master/screenshots/1_browseButton.png)
 
-3. Sound Alert
+#### Sound Alert
   * If enabled, a **sound alert** will play every time there are some games which is the player's turn according to the update rate set (default is 30 seconds).
 
 ### Changelog
