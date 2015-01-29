@@ -20,14 +20,30 @@ In order to use TMTools, download [TMTools](https://github.com/rafalimaz/TMTools
 
 ### Main features
 
-1. Filter games and graphics
+1. The main page of the extension has all features and links. It was designed that way to make easily find features and settings. It can be seen on the following picture:
+
+![ScreenShot](https://github.com/rafalimaz/TMTools/blob/master/screenshots/2_mainPage.png)
+
+2. Filter games and graphics
   * **By player**: User should open the extension, provide a player name and click on some faction. It will show match data on a graph.
+  
+![ScreenShot](https://github.com/rafalimaz/TMTools/blob/master/screenshots/4_filterByPlayer.png)
+
   * **By site** (finished games): User should open a finished games page of some player that shows a list with all games played. After this, the user should open the extension. By clicking on a faction it will filter that list showing only games for this specific faction. Also a graph is showed with these games.
+  
+![ScreenShot](https://github.com/rafalimaz/TMTools/blob/master/screenshots/6_filterBySiteFinished.png)
+
   * **By site** (game log): User should open a game (active or finished). After this, the user should open the extension. By clicking on a faction that is current in play it will filter the log showing only moves from that faction. Also a graph is showed with these moves and score history for that faction.
+
+![ScreenShot](https://github.com/rafalimaz/TMTools/blob/master/screenshots/7_filterBySiteGame.png)
+
+![ScreenShot](https://github.com/rafalimaz/TMTools/blob/master/screenshots/8_filterBySiteGameAll.png)
 
 2. Browser Notification
   * A **counter** of the games which it is the player's turn appears on the extension browser button. Also there is a **go to site** link that opens the first opened game for the player.
- 
+  
+ ![ScreenShot](https://github.com/rafalimaz/TMTools/blob/master/screenshots/1_browseButton.png)
+
 3. Sound Alert
   * If enabled, a **sound alert** will play every time there are some games which is the player's turn according to the update rate set (default is 30 seconds).
 
