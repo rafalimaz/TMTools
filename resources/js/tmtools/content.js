@@ -260,7 +260,7 @@ function setupHeader(){
 function setupReplayLinks(){
 	var url = window.location.href;
 	var parts = url.split("/");	
-	if(parts[3] == "faction") {
+	if(parts[3] == "faction" || parts[3] == "game") {
 		loadGame(parts[4]);
 	}
 }
