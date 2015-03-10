@@ -46,6 +46,9 @@ In order to use TMTools, download [TMTools](https://github.com/rafalimaz/TMTools
 #### Sound Alert
   * If enabled, a **sound alert** will play every time there are some games which is the player's turn according to the update rate set (default is 30 seconds).
 
+### Known Issues
+* If user removes (unpacked) source files after installing the plugin, Chrome disables the plugin because the manifest file becomes unavailable. Users should keep source files. Thanks [Konush](http://terra.snellman.net/player/konush)
+
 ### Changelog
 
 ##### 1.0.0 Initial version (2015-01-19)
