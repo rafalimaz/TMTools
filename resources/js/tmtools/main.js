@@ -62,22 +62,35 @@ function playLinkClick(e) {
     chrome.extension.sendMessage({directive: "popup-click", stopSound: true}, function(response) { });
 }
 
-function playerNameMouseOut(e) {
+function playerNameFocusOut(e) {
 	var playerName = document.querySelector('#playerName').value;
 	chrome.storage.local.set({'playerName':  playerName});
 }
 
-function soundUpdateMouseOut(e) {
+function soundUpdateFocusOut(e) {
 	var soundUpdate = document.querySelector('#soundUpdate').value;
-	if(isNaN(parseInt(soundUpdate))){
-		alert("update rate must be an integer");
+	if (validateSoundUpdate(soundUpdate)) {
+		chrome.storage.local.set({'soundUpdate':  soundUpdate});
+		chrome.extension.sendMessage({directive: "update-sound", stopSound: false}, function(response) { });
+	} else {
 		chrome.storage.local.get('soundUpdate', function (result) {
 			document.querySelector('#soundUpdate').value = (result.soundUpdate == undefined ? 30 : result.soundUpdate);
 		});
-	} else {
-		chrome.storage.local.set({'soundUpdate':  soundUpdate});
-		chrome.extension.sendMessage({directive: "update-sound", stopSound: false}, function(response) { });
 	}
+}
+
+function validateSoundUpdate(soundUpdate) {
+	if (isNaN(parseInt(soundUpdate))) {		
+		alert("Update rate must be an integer.");
+		return false;
+	} 
+	
+	if (parseInt(soundUpdate) < 30) {
+		alert("Update rate must be at least 30s.");
+		return false;
+	}
+	
+	return true;
 }
 
 function factionClick(e) {	
@@ -203,8 +216,8 @@ $(document).ready(function(){
 	}
 	
 	document.getElementById('playLink').addEventListener('click', playLinkClick);
-	document.getElementById('playerName').addEventListener('mouseout', playerNameMouseOut);
+	document.getElementById('playerName').addEventListener('focusout', playerNameFocusOut);
 	document.getElementById('soundAlert').addEventListener('click', soundAlertClick);
-	document.getElementById('soundUpdate').addEventListener('mouseout', soundUpdateMouseOut);
+	document.getElementById('soundUpdate').addEventListener('focusout', soundUpdateFocusOut);
 	document.getElementById('replayEnabled').addEventListener('click', replayEnabledClick);
 });
