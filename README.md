@@ -8,13 +8,13 @@ The main motivation for building this extension was the need to improve my gamep
 
 ### Installation
 
-In order to use TMTools, download [TMTools](https://github.com/rafalimaz/TMTools/archive/v1.0.0.zip) zip file (`https://github.com/rafalimaz/TMTools/archive/v1.0.0.zip`) and follow these steps:
+In order to use TMTools, download [TMTools](https://github.com/rafalimaz/TMTools/archive/v1.0.zip) zip file (`https://github.com/rafalimaz/TMTools/archive/v1.0.zip`) and follow these steps:
 
 1. Extract the contents somewhere
 2. In Chrome, open `chrome://extensions/`
 3. Click + Developer mode
 4. Click Load unpacked extension…
-5. Navigate to the extracted folder and click OK `..\TMTools-1.0.0\TMTools-1.0.0`
+5. Navigate to the extracted folder and click OK `..\TMTools-1.0\TMTools-1.0`
 6. Log into [Terra Mystica website](http://terra.snellman.net) `http://terra.snellman.net/`
 7. An active games counter should appear on browser
 
@@ -51,12 +51,11 @@ In order to use TMTools, download [TMTools](https://github.com/rafalimaz/TMTools
 
 ### Changelog
 
-##### 1.0.0 Initial version (2015-01-19)
-  * Added main features like counter, filters, graphs and sound alert
-  
-##### 1.0.1 Replay function (2015-01-22)
+##### 1.0 Replay function (2015-01-22)
   * Added replay feature with prev/next buttons
 
+##### 0.9 Initial version (2015-01-19)
+  * Added main features like counter, filters, graphs and sound alert
 
 ### Useful Links
   * [BGG Discussion](http://boardgamegeek.com/thread/1305425/tmtools-chrome-extension-snellman-site)
