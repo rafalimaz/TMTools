@@ -1,6 +1,6 @@
 # TMTools
 
-**TMTools** is a helpfull chrome extension for Snellman's Terra Mystica moderator website. Its is designed to provide some features which are still not implemented on original website like more sound alerts and more flexible filters. Also provides some graphs and statistics to help newcomers evaluate their overall improvement on the game. If you have suggestions, doubts or other stuff just contact me on `https://github.com/rafalimaz`
+**TMTools** is a helpfull chrome extension for Snellman's Terra Mystica moderator [website](http://terra.snellman.net). Its is designed to provide some features which are still not implemented on original website like more sound alerts and more flexible filters. Also provides some graphs and statistics to help newcomers evaluate their overall improvement on the game. If you have suggestions, doubts or other stuff just contact [me](https://github.com/rafalimaz)
 
 ### Motivation
 
@@ -8,14 +8,14 @@ The main motivation for building this extension was the need to improve my gamep
 
 ### Installation
 
-In order to use TMTools, download [TMTools](https://github.com/rafalimaz/TMTools/archive/v1.0.zip) zip file (`https://github.com/rafalimaz/TMTools/archive/v1.0.zip`) and follow these steps:
+In order to use TMTools, download TMTools zip [file](https://github.com/rafalimaz/TMTools/archive/v1.0.zip) and follow these steps:
 
 1. Extract the contents somewhere
-2. In Chrome, open `chrome://extensions/`
+2. In Chrome, open [extensions](chrome://extensions/) `chrome://extensions/`
 3. Click + Developer mode
 4. Click Load unpacked extension…
 5. Navigate to the extracted folder and click OK `..\TMTools-1.0\TMTools-1.0`
-6. Log into [Terra Mystica website](http://terra.snellman.net) `http://terra.snellman.net/`
+6. Log into Terra Mystica [website](http://terra.snellman.net) `http://terra.snellman.net/`
 7. An active games counter should appear on browser
 
 ### Main features
