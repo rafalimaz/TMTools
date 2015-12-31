@@ -52,7 +52,8 @@ function getCounter(token)
 		},
 		error: function(data) {
 			console.log("Error getting games. " + data);
-			chrome.browserAction.setBadgeText({text: '0'});
+			chrome.browserAction.setBadgeText({text: 'Error'});
+			chrome.storage.local.removeItem("token");
 		}
     });
 }
