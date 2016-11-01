@@ -8,7 +8,7 @@ The main motivation for building this extension was the need to improve my gamep
 
 ### Installation
 
-In order to use TMTools, download TMTools zip [file](https://github.com/rafalimaz/TMTools/archive/v1.0.zip) and follow these steps:
+In order to use TMTools, download TMTools zip [Last Release](https://github.com/rafalimaz/TMTools/archive/v1.0.1.zip) or [Beta Release] (https://github.com/rafalimaz/TMTools/archive/v1.0.2.zip) and follow these steps:
 
 1. Extract the contents somewhere
 2. In Chrome, open [extensions](chrome://extensions/) `chrome://extensions/`
