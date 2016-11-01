@@ -51,7 +51,7 @@ In order to use TMTools, download TMTools zip [Beta Release] (https://github.com
 
 ### Changelog
 
-##### 1.0.1 Replay Improvemnt (2016-11-01)
+##### 1.0.1 Replay Improvement (2016-11-01)
   * Added more info on replay area as suggested by ttchong
   * Fixed a bug on counter caused by chrome API update
   
