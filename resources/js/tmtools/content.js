@@ -198,65 +198,71 @@ function updateMoves(factionData, maxMoves){
 var gameData;
 function loadGame(newGameName){
 	chrome.storage.local.get('gameData', function(result) {	
-		gameData = result.gameData;
 		chrome.storage.local.get('currentGameName', function(result) {	
-			if(!gameData || !result.currentGameName || newGameName != result.currentGameName) {
-				chrome.storage.local.get('token', function (result) {
-					var token;
-					if(!result.token){
-						token = getCSRFToken();
-						if(!token) {
-							alert("Error getting game info. Token invalid");
-							return;
-						}
+			chrome.storage.local.get('token', function (result) {
+				var token;
+				if(!result.token){
+					token = getCSRFToken();
+					if(!token) {
+						alert("Error getting game info. Token invalid");
+						return;
 					}
-					
-					$.ajax({  
-						type: 'POST',
-						async: false,
-						url: "http://terra.snellman.net/app/view-game/",
-						data: {
-							"csrf-token": token,
-							"game": newGameName
-						},
-						success: function(jsonObj) {
-							gameData = jsonObj;
-							currentGameName = newGameName;
-							setupHeader();
-							chrome.storage.local.set({'gameData': gameData});
-							chrome.storage.local.set({'currentGameName': newGameName});
-						}
-					});
+				}
+				
+				$.ajax({  
+					type: 'POST',
+					async: false,
+					url: "http://terra.snellman.net/app/view-game/",
+					data: {
+						"csrf-token": token,
+						"game": newGameName
+					},
+					success: function(jsonObj) {
+						gameData = jsonObj;
+						currentGameName = newGameName;
+						setupHeader();
+						chrome.storage.local.set({'gameData': gameData});
+						chrome.storage.local.set({'currentGameName': newGameName});
+					}
 				});
-			} else {
-				setupHeader();
-			}
+			});
 		});
 	});
 }
 
-function setupHeader(){
+function setupHeader(){	
 	var url = window.location.href;
 	var hrefNext; 
 	var hrefNext;
 	var row;
-	if(url.indexOf("max-row") != -1){
+	var maxRow = gameData.ledger.length;
+	if (url.indexOf("max-row") != -1) {
 		url = url.split("=");
 		row = parseInt(url[1]);
 		hrefPrev = url[0] + "=" + (row - 1);
-		hrefNext = url[0] + "=" + (row + 1);
+		hrefNext = url[0] + "=" + Math.min((row + 1), maxRow);
 	} else {
-		row = 1;
-		hrefPrev = hrefNext = url + "/max-row=" + row;
+		row = maxRow;
+		hrefPrev = url + "/max-row=" + (row - 1);
+		hrefNext = url;
 	}	
 	
-	var description = (gameData.ledger[row-1].comment ? gameData.ledger[row-1].comment : gameData.ledger[row-1].commands);
-	var descriptionCss = "white-space:nowrap;display:inline-block;";
-	var replayCss = "margin-bottom: 5px;background-color: #eee;padding: 5px;border-style: solid;border-width: 1px;max-width: 1045px;";  
-	
-	$('#header').after($('<div id="replay" style="'+ replayCss +'">Replay[<a id="prev" href="' + hrefPrev + '">Prev</a>/<a id="next" href="' + hrefNext + '">Next</a>]' +
-					   '<span style="' + descriptionCss + '" title="' + description +'">&nbsp(' + description + ')</span></div>'));
+	var jsInitChecktimer = setInterval(checkForJS_Finish, 111);
+    function checkForJS_Finish () {
+		var lastLogTD = $($("#ledger tr").last()[0]).html();
+        if (lastLogTD != undefined) {
+            clearInterval (jsInitChecktimer);
+		    setHeaderReplay(hrefPrev, hrefNext, lastLogTD)
+        }
+    }
 }
+
+function setHeaderReplay(hrefPrev, hrefNext, lastLogTD) {
+	var description = '<table><tr><td>Replay[<a id="prev" href="' + hrefPrev + '">Prev</a>/<a id="next" href="' + hrefNext + '">Next</a>]&nbsp&nbsp' + "</td>" + lastLogTD + "</tr></table>";
+	var replayCss = "margin-bottom: 5px;background-color: #eee;padding: 5px;border-style: solid;border-width: 1px;max-width: 1045px;";
+	$('#header').after($('<div id="replay" style="'+ replayCss + '">' + description + '</div>'));
+}
+
 function setupReplayLinks(){
 	var url = window.location.href;
 	var parts = url.split("/");	
@@ -265,7 +271,7 @@ function setupReplayLinks(){
 	}
 }
 
-$(document).ready(function(){
+function loadReplayInfo() {
 	chrome.storage.local.get('replay', function(result) {
 		var replay = (result.replay == undefined ? true : result.replay);
 		if(replay) {
@@ -273,4 +279,8 @@ $(document).ready(function(){
 			chrome.storage.local.set({'replay': replay });
 		}
 	});
+}
+
+$(function() {
+	loadReplayInfo();
 });
