@@ -14,7 +14,7 @@ In order to use TMTools, download TMTools zip [file](https://github.com/rafalima
 2. In Chrome, open [extensions](chrome://extensions/) `chrome://extensions/`
 3. Click + Developer mode
 4. Click Load unpacked extension…
-5. Navigate to the extracted folder and click OK `..\TMTools-1.0\TMTools-1.0`
+5. Navigate to the extracted folder and click OK `..\TMTools-{version}\TMTools-{version}`
 6. Log into Terra Mystica [website](http://terra.snellman.net) `http://terra.snellman.net/`
 7. An active games counter should appear on browser
 
