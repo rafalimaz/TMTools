@@ -1,10 +1,11 @@
 function loadCounter(){
 	chrome.storage.local.get('token', function (result) {
-		if(result.token){
+		if (result.token) {
 			getCounter(result.token);
 		} else {
-			chrome.tabs.getSelected(null, function(tab){
-				chrome.tabs.sendMessage(tab.id, {type: 'csrf-token'}, getCounter);
+			chrome.tabs.query({"active": true}, function(tabs) {
+				var tabId = tabs[0].id;
+				chrome.tabs.sendMessage(tabId, {type: 'csrf-token'}, getCounter);
 			});
 		}
     });
@@ -53,7 +54,7 @@ function getCounter(token)
 		error: function(data) {
 			console.log("Error getting games. " + data);
 			chrome.browserAction.setBadgeText({text: 'Error'});
-			chrome.storage.local.removeItem("token");
+			chrome.storage.local.remove("token");
 		}
     });
 }
