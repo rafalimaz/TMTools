@@ -51,9 +51,13 @@ In order to use TMTools, download TMTools zip [Beta Release] (https://github.com
 
 ### Changelog
 
-##### 1.0.1 Replay Improvement (2016-11-01)
+##### 1.0.2 Replay Improvement (2016-11-02)
   * Added more info on replay area as suggested by ttchong
   * Fixed a bug on counter caused by chrome API update
+  * Added replay filter by faction 
+  * Added paypal donate button
+  * Added analytics tracking code for developer mode
+  * Added analytics support
   
 ##### 1.0.1 Fix on counter (2015-12-31)
   * Fixed bug on counter reported by CTKShadow
