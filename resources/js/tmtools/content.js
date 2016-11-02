@@ -232,15 +232,42 @@ function loadGame(newGameName){
 
 function setupHeader(){	
 	var url = window.location.href;
-	var hrefNext; 
-	var hrefNext;
-	var row;
-	var maxRow = gameData.ledger.length;
+	var maxRow = gameData.ledger.length;	
+	var hrefNext, hrefNext, row, prevRow, nextRow;	
+    var urlParts = url.split("/");
+	var chosen = urlParts[5];
+	var faction;
+	
+	if (chosen != undefined && isFaction(chosen)) {		
+		if (url.indexOf("max-row") != -1) {
+			urlParts = url.split("=");
+			row = parseInt(urlParts[1]);			
+		} else {
+			row = gameData.ledger.length-1;
+		}
+		
+		for (var i = row - 1; i > -1; i--) { 
+			if (gameData.ledger[i].faction == chosen) {
+				prevRow = i;
+				faction = chosen;
+				break;
+			}
+		}
+		
+		for (var i = row + 1; i < gameData.ledger.length; i++) { 
+			if (gameData.ledger[i].faction == chosen) {
+				nextRow = i;
+				faction = chosen;
+				break;
+			}
+		}
+	}
+		
 	if (url.indexOf("max-row") != -1) {
 		url = url.split("=");
 		row = parseInt(url[1]);
-		hrefPrev = url[0] + "=" + (row - 1);
-		hrefNext = url[0] + "=" + Math.min((row + 1), maxRow);
+		hrefPrev = url[0] + "=" + (prevRow ? prevRow : (row - 1));
+		hrefNext = url[0] + "=" + (nextRow ? nextRow : Math.min((row + 1), maxRow));
 	} else {
 		row = maxRow;
 		hrefPrev = url + "/max-row=" + (row - 1);
@@ -249,12 +276,30 @@ function setupHeader(){
 	
 	var jsInitChecktimer = setInterval(checkForJS_Finish, 111);
     function checkForJS_Finish () {
-		var lastLogTD = $($("#ledger tr").last()[0]).html();
+		var lastLogTD;
+		if (faction != null) {
+			if (("#ledger") != undefined) {
+				lastLogTD = $("#ledger td:first-child:contains('" + faction + "')").last().parent().html();			
+				if (lastLogTD == undefined) {
+					lastLogTD = "<td>Log history not found, please go next</td>";
+				}
+			}
+			
+		} else {
+			lastLogTD = $($("#ledger tr").last()[0]).html();
+		}
+		
         if (lastLogTD != undefined) {
             clearInterval (jsInitChecktimer);
 		    setHeaderReplay(hrefPrev, hrefNext, lastLogTD)
         }
     }
+}
+
+function isFaction(faction) {
+	var factions = ["alchemists", "auren", "chaosmagicians", "cultists", "darklings", "dwarves","engineers","fakirs","giants","halflings","mermaids","nomads",
+	"swarmlings",	"witches","acolytes","dragonlords","icemaidens","yetis","riverwalkers","shapeshifters"];
+	return factions.indexOf(faction) >= 0;	
 }
 
 function setHeaderReplay(hrefPrev, hrefNext, lastLogTD) {
