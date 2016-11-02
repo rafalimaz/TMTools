@@ -8,7 +8,13 @@ The main motivation for building this extension was the need to improve my gamep
 
 ### Installation
 
-In order to use TMTools, download TMTools zip [Beta Release] (https://github.com/rafalimaz/TMTools/archive/v1.0.2.zip) or [Last Release](https://github.com/rafalimaz/TMTools/archive/v1.0.1.zip) and follow these steps:
+##### Chrome Web Store
+
+In order to use TMTools just install the extension from [Chrome Web Store](https://chrome.google.com/webstore/detail/tm-tools/jandhnpfekgdcklcgfcljmijgbgnchni)
+
+##### Development Mode
+
+It is possible to use TMTools without install the extension through Chrome Web Store. It is only need to download TMTools zip [Last Release] (https://github.com/rafalimaz/TMTools/archive/v1.0.3.zip) and do the steps as follows:
 
 1. Extract the contents somewhere
 2. In Chrome, open [extensions](chrome://extensions/) `chrome://extensions/`
@@ -51,13 +57,16 @@ In order to use TMTools, download TMTools zip [Beta Release] (https://github.com
 
 ### Changelog
 
-##### 1.0.2 Replay Improvement (2016-11-02)
-  * Added more info on replay area as suggested by ttchong
-  * Fixed a bug on counter caused by chrome API update
+##### 1.0.3 Filter by faction on replay (2016-11-02)
   * Added replay filter by faction 
   * Added paypal donate button
   * Added analytics tracking code for developer mode
   * Added analytics support
+  * Added TMTools to Chrome Web Store
+  
+##### 1.0.2 Replay Improvement (2016-11-01)
+  * Added more info on replay area as suggested by ttchong
+  * Fixed a bug on counter caused by chrome API update
   
 ##### 1.0.1 Fix on counter (2015-12-31)
   * Fixed bug on counter reported by CTKShadow
