@@ -230,23 +230,27 @@ function loadGame(newGameName){
 	});
 }
 
+var lastRowIndex;
 function setupHeader(){	
 	var url = window.location.href;
-	var maxRow = gameData.ledger.length;	
-	var hrefNext, hrefNext, row, prevRow, nextRow;	
+	var hrefNext, hrefNext, hrefFirst, hrefLast, row, prevRow, nextRow;	
     var urlParts = url.split("/");
 	var chosen = urlParts[5];
 	var faction;
 	
-	if (chosen != undefined && isFaction(chosen)) {		
-		if (url.indexOf("max-row") != -1) {
-			urlParts = url.split("=");
-			row = parseInt(urlParts[1]);			
-		} else {
-			row = gameData.ledger.length-1;
-		}
+	if (url.indexOf("max-row") != -1) {
+		urlParts = url.split("=");
+		row = parseInt(urlParts[1]);
+	} else {
+		row = gameData.ledger.length-1;
+	}
 		
-		for (var i = row - 1; i > -1; i--) { 
+	var maxRow = getMaxRow(gameData.ledger, row);
+	var minRow = getMinRow(gameData.ledger);
+	
+	if (chosen != undefined && isFaction(chosen)) {
+		prevRow = minRow;
+		for (var i = Math.min(row - 1, maxRow); i > minRow; i--) { 
 			if (gameData.ledger[i].faction == chosen) {
 				prevRow = i;
 				faction = chosen;
@@ -254,7 +258,8 @@ function setupHeader(){
 			}
 		}
 		
-		for (var i = row + 1; i < gameData.ledger.length; i++) { 
+		nextRow = maxRow;
+		for (var i = row + 1; i < maxRow; i++) { 
 			if (gameData.ledger[i].faction == chosen) {
 				nextRow = i;
 				faction = chosen;
@@ -266,34 +271,65 @@ function setupHeader(){
 	if (url.indexOf("max-row") != -1) {
 		url = url.split("=");
 		row = parseInt(url[1]);
-		hrefPrev = url[0] + "=" + (prevRow ? prevRow : (row - 1));
+		hrefPrev = url[0] + "=" + (prevRow ? prevRow : Math.max((row - 1), minRow));
 		hrefNext = url[0] + "=" + (nextRow ? nextRow : Math.min((row + 1), maxRow));
 	} else {
 		row = maxRow;
 		hrefPrev = url + "/max-row=" + (row - 1);
 		hrefNext = url;
-	}	
+	}
+	
+	hrefFirst = url[0] + "=" + minRow;
+	hrefLast = url[0] + "=" + maxRow;
 	
 	var jsInitChecktimer = setInterval(checkForJS_Finish, 111);
     function checkForJS_Finish () {
 		var lastLogTD;
-		if (faction != null) {
-			if (("#ledger") != undefined) {
-				lastLogTD = $("#ledger td:first-child:contains('" + faction + "')").last().parent().html();			
+		if (("#ledger") != undefined) {
+			if (faction != null) {			
+				if (lastRowIndex == null) {
+					lastLogTD = $("#ledger td:first-child:contains('" + faction + "')").last().parent().html();
+				} else {
+					lastLogTD = $("#ledger tr:lt('" + lastRowIndex + "') td:first-child:contains('" + faction + "')").last().parent().html();
+				}
 				if (lastLogTD == undefined) {
 					lastLogTD = "<td>Log history not found, please go next</td>";
 				}
+			} else {
+				if (lastRowIndex == null) {
+					lastLogTD = $($("#ledger tr").last()[0]).html();
+				} else {
+					lastLogTD = $($("#ledger tr")[lastRowIndex - 1]).html();
+				}				
 			}
-			
-		} else {
-			lastLogTD = $($("#ledger tr").last()[0]).html();
 		}
 		
         if (lastLogTD != undefined) {
             clearInterval (jsInitChecktimer);
-		    setHeaderReplay(hrefPrev, hrefNext, lastLogTD)
+		    setHeaderReplay(hrefPrev, hrefNext, hrefFirst, hrefLast, lastLogTD)
         }
     }
+}
+
+function getMinRow(ledger) {
+	for (var i = 0; i < ledger.length - 1; i++) {
+		if (ledger[i].commands != undefined) {
+			return i + 2;
+		}
+	}
+}
+function getMaxRow(ledger, row) {
+	if (ledger[ledger.length-1].commands != "score_resources") {
+		lastRowIndex = null;
+		return ledger.length;
+	}
+	
+	for (var i = ledger.length - 1; i > -1; i--) {
+		if (ledger[i].comment == "Scoring FIRE cult") {
+			lastRowIndex = row ? Math.min(row - 1, i - 1) : i - 1;
+			return i + 1;
+		}
+	}
 }
 
 function isFaction(faction) {
@@ -302,8 +338,8 @@ function isFaction(faction) {
 	return factions.indexOf(faction) >= 0;	
 }
 
-function setHeaderReplay(hrefPrev, hrefNext, lastLogTD) {
-	var description = '<table><tr><td>Replay[<a id="prev" href="' + hrefPrev + '">Prev</a>/<a id="next" href="' + hrefNext + '">Next</a>]&nbsp&nbsp' + "</td>" + lastLogTD + "</tr></table>";
+function setHeaderReplay(hrefPrev, hrefNext, hrefFirst, hrefLast, lastLogTD) {
+	var description = '<table><tr><td>Replay&nbsp[<a id="first" href="' + hrefFirst + '">First</a>|<a id="prev" href="' + hrefPrev + '">Prev</a>|<a id="next" href="' + hrefNext + '">Next</a>|<a id="last" href="' + hrefLast + '">Last</a>]</td>' + lastLogTD + "</tr></table>";
 	var replayCss = "margin-bottom: 5px;background-color: #eee;padding: 5px;border-style: solid;border-width: 1px;max-width: 1045px;";
 	$('#header').after($('<div id="replay" style="'+ replayCss + '">' + description + '</div>'));
 }
