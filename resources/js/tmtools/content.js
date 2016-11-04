@@ -383,7 +383,6 @@ var allOpponentGames = {};
 var allGamesHTML;
 function filterGames(player, opponent, isAll) {
 	$("#games-finished tbody").html("");
-	
 	if (isAll) {
 		$("#games-finished tbody").append(allGamesHTML);
 		return;
@@ -396,16 +395,18 @@ function filterGames(player, opponent, isAll) {
 	
 	var opponentGames = allOpponentGames[opponent];
 	var index = 0;
+	var filteredGames = [];
 	allGamesHTML.each(function() {
 		var game =  $(this).children('td').eq(0).html();
 		for (var i = index; i < opponentGames.length - 1; i++) {
 			if (game == opponentGames[i]) {
-				$("#games-finished tbody").append($(this));
+				filteredGames.push($(this));
 				index++;
 				return true;
 			}
 		}
 	});
+	$("#games-finished tbody").append(filteredGames);
 }
 
 var listGamesObj;
