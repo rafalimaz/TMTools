@@ -3,11 +3,11 @@ body {
   margin: 0px;
   padding: 0px;
   background: white;
-  width: 700px;
+  width: 800px;
 }
 
 .options {
-	width: 275px; 
+	width: 375px; 
 	float: left; 
 	height: 40px;
 }
@@ -81,7 +81,7 @@ body {
 }
 
 .statistics {
-	width: 540px; 
+	width: 640px; 
 	float: left;
 }
 

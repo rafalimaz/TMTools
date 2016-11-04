@@ -58,6 +58,11 @@ function replayEnabledClick(e){
 	chrome.storage.local.set({'replay':  checked});
 }
 
+function opponentsFilterClick(e){
+	var checked = document.querySelector('#cbxOpponentsFilter').checked;
+	chrome.storage.local.set({'opponentsFilter':  checked});
+}
+
 function playLinkClick(e) {
     chrome.extension.sendMessage({directive: "popup-click", stopSound: true}, function(response) { });
 }
@@ -200,6 +205,10 @@ $(document).ready(function(){
 		$('#replayEnabled').prop('checked', result.replay == undefined ? true : result.replay);
 	});
 	
+	chrome.storage.local.get('opponentsFilter', function (result) {
+		$('#cbxOpponentsFilter').prop('checked', result.opponentsFilter == undefined ? true : result.opponentsFilter);
+	});
+	
 	$("#byPlayer").change(function(){
 		$('#playerName').prop("disabled", false);
 		chrome.storage.local.set({'filter': "byPlayer" });
@@ -220,4 +229,5 @@ $(document).ready(function(){
 	document.getElementById('soundAlert').addEventListener('click', soundAlertClick);
 	document.getElementById('soundUpdate').addEventListener('focusout', soundUpdateFocusOut);
 	document.getElementById('replayEnabled').addEventListener('click', replayEnabledClick);
+	document.getElementById('cbxOpponentsFilter').addEventListener('click', opponentsFilterClick);
 });

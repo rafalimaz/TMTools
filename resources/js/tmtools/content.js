@@ -14,7 +14,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 	return true;
 });
 
-function getGamesInfo(message, sendResponse){
+function listGames(player, callback) {
 	chrome.storage.local.get('token', function (result) {
 		var token;
 		if(!result.token){
@@ -31,42 +31,49 @@ function getGamesInfo(message, sendResponse){
 			data: {
 				"mode": "other-user",
 				"status": "finished",
-				"args": message.player,
+				"args": player,
 				"csrf-token": token				
 			},
 			success: function(jsonObj) 
 			{
-				var factionData = {};
-				var ledger;
-				var oneLeech = 0;
-				var multLeech = 0;
-				var games = jsonObj.games;
-				var sameLine = message.faction == "all" ? message.sameLine : false;
-				for (var i = 0; i < games.length; i++){
-					var match = games[i].role == message.faction || message.faction == "all";
-					if (match && games[i].role.indexOf("player") == -1){
-						var faction = sameLine ? "all" : games[i].role;
-						if(!factionData[faction]){
-							factionData[faction] = [];
-						}
-						if(games[i].aborted == 0){
-							factionData[faction].push({score: games[i].vp.toString(), position: games[i].rank.toString(), game: games[i].id, gameLink: 'http://terra.snellman.net' + games[i].link, dropped: games[i].dropped != 0});
-						}
-					}
+				if (callback) {
+					callback(jsonObj);
 				}
-				
-				for (var key in factionData) {
-					if (factionData.hasOwnProperty(key)) {
-						factionData[key].reverse();
-					}
-				}
-				sendResponse({data: factionData, ledger: ledger != undefined, oneLeech: oneLeech, multLeech: multLeech});
-			},
-			error: function(data) {
-				console.log("Error getting games. " + data);
 			}
 		});
 	});
+}
+
+function getGamesInfo(message, sendResponse){
+	var callback = function(jsonObj) {
+		var factionData = {};
+		var ledger;
+		var oneLeech = 0;
+		var multLeech = 0;
+		var games = jsonObj.games;
+		var sameLine = message.faction == "all" ? message.sameLine : false;
+		for (var i = 0; i < games.length; i++) {
+			var match = games[i].role == message.faction || message.faction == "all";
+			if (match && games[i].role.indexOf("player") == -1){
+				var faction = sameLine ? "all" : games[i].role;
+				if(!factionData[faction]){
+					factionData[faction] = [];
+				}
+				if(games[i].aborted == 0){
+					factionData[faction].push({score: games[i].vp.toString(), position: games[i].rank.toString(), game: games[i].id, gameLink: 'http://terra.snellman.net' + games[i].link, dropped: games[i].dropped != 0});
+				}
+			}
+		}
+		
+		for (var key in factionData) {
+			if (factionData.hasOwnProperty(key)) {
+				factionData[key].reverse();
+			}
+		}
+		sendResponse({data: factionData, ledger: ledger != undefined, oneLeech: oneLeech, multLeech: multLeech});
+	}
+	
+	listGames(message.player, callback);
 }
 
 function getCSRFToken() {
@@ -355,13 +362,150 @@ function setupReplayLinks(){
 function loadReplayInfo() {
 	chrome.storage.local.get('replay', function(result) {
 		var replay = (result.replay == undefined ? true : result.replay);
-		if(replay) {
+		if (replay) {
 			setupReplayLinks();
 			chrome.storage.local.set({'replay': replay });
 		}
 	});
 }
 
+var allOpponentGames = {};
+var allGamesHTML;
+function filterGames(player, opponent, isAll) {
+	$("#games-finished tbody").html("");
+	
+	if (isAll) {
+		$("#games-finished tbody").append(allGamesHTML);
+		return;
+	}
+	
+	if (!allOpponentGames.hasOwnProperty(opponent)) {
+		loadOpponentGames(player, opponent);
+		return;
+	}
+	
+	var opponentGames = allOpponentGames[opponent];
+	var index = 0;
+	allGamesHTML.each(function() {
+		var game =  $(this).children('td').eq(0).html();
+		for (var i = index; i < opponentGames.length - 1; i++) {
+			if (game == opponentGames[i]) {
+				$("#games-finished tbody").append($(this));
+				index++;
+				return true;
+			}
+		}
+	});
+}
+
+var listGamesObj;
+function loadOpponentGames(player, opponent) {
+	var callback = function(jsonObj) {
+		listGamesObj = jsonObj;
+		var myGames = jsonObj.games;
+		
+		var callback2 = function(jsonObj2) {
+			var opponentGames = jsonObj2.games;
+			var filteredGames = [];
+			for (var i = 0; i < myGames.length - 1; i++) {
+				for (var j = 0; j < opponentGames.length - 1; j++) {
+					if (myGames[i].id == opponentGames[j].id) {
+						filteredGames.push(myGames[i].id);
+					}
+				}
+			}			
+			allOpponentGames[opponent] = filteredGames;
+			
+			filterGames(player, opponent, false);
+		}
+		
+		listGames(opponent, callback2);
+	}
+	
+	if (listGamesObj != null) {
+		callback(listGamesObj);
+	} else {
+		listGames(player, callback);
+	}
+}
+
+function setupOpponentsFilter(player) {
+	var jsInitChecktimer = setInterval(checkForJS_Finish, 111);
+	
+	function checkForJS_Finish () {
+		var opponentsTable = $("#opponents-table tr");
+		if (opponentsTable != undefined && opponentsTable.length > 1) {
+			clearInterval (jsInitChecktimer);
+			setupOpponentsGamesLinks(player);
+		}
+	}
+}
+
+function setupOpponentsGamesLinks(url) {
+	$("#opponents-table tr").each(function() {
+		var opponent = $(this).children('td').eq(0).children('a').html();
+		var tdGames = $(this).children('td').eq(1);			
+		if (tdGames.html() == "Games") {
+			$(tdGames).html("");
+			$(tdGames).append($("<a class='link-opponent-games' data-opponent='" + opponent + "' href='#' onclick='$(\"finished-button\").click();'>Games</a>"));
+			return true;
+		}
+		
+		var games = $(tdGames).html();
+		$(tdGames).html("");
+		$(tdGames).append($("<a class='link-opponent-games' data-opponent='" + opponent + "' href='#' onclick='$(\"finished-button\").click();'>" + games + "</a>"));
+	});
+	
+	$("a.link-opponent-games").click(function() {
+		var player = url.split("/")[4].split("#")[0];
+		var opponent = $(this).attr("data-opponent");
+		var isAll = $(this).html() == "Games";
+		
+		if (allGamesHTML == null) {
+			var jsInitChecktimer = setInterval(checkForJS_Finish, 111);
+	
+			function checkForJS_Finish () {
+				allGamesHTML = $("#games-finished tr");
+				if (allGamesHTML != null && allGamesHTML.length > 0) {
+					clearInterval (jsInitChecktimer);
+					filterGames(player, opponent, isAll);
+				}
+			}
+		} else {
+			filterGames(player, opponent, isAll);
+		}
+	});
+}
+
+function saveData(key, value) {
+	chrome.storage.local.set({key: value });
+}
+
+function loadData(key, callback) {
+	chrome.storage.local.get(key, callback);
+}
+
+function loadOpponentsFilter() {
+	loadData('opponentsFilter', function(result) {
+		var opponentsFilter = (result.opponentsFilter == undefined ? true : result.opponentsFilter);
+		if (opponentsFilter) {
+			var url = window.location.href;
+			if (url.indexOf("terra.snellman.net/player") > 0) {
+				var player = url.split("/")[4].split("#")[0];
+				if (url.indexOf("#opponents") > 0) {
+					setupOpponentsFilter(url);
+				}
+				
+				$("#opponents-button").click(function() {
+					setupOpponentsFilter(url);
+				});
+			}
+			saveData('opponentsFilter', opponentsFilter);
+		}
+	});
+}
+
 $(function() {
 	loadReplayInfo();
+	loadOpponentsFilter();
 });
