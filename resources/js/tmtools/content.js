@@ -15,7 +15,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 });
 
 function listGames(player, callback) {
-	chrome.storage.local.get('token', function (result) {
+	loadData('token', function (result) {
 		var token;
 		if(!result.token){
 			token = getCSRFToken();
@@ -202,11 +202,17 @@ function updateMoves(factionData, maxMoves){
 	}
 }
 
-var gameData;
-function loadGame(newGameName){
-	chrome.storage.local.get('gameData', function(result) {	
-		chrome.storage.local.get('currentGameName', function(result) {	
-			chrome.storage.local.get('token', function (result) {
+function loadGame(newGameName) {
+	loadData({'ledger':[]}, function(result) {
+		var ledger = result.ledger == undefined ? null : result.ledger;
+		
+		loadData('currentGameName', function(result) {	
+			if (result.currentGameName != undefined && result.currentGameName == newGameName) {
+				setupReplayHeader(ledger);
+				return;
+			}
+			
+			loadData('token', function (result) {
 				var token;
 				if(!result.token){
 					token = getCSRFToken();
@@ -225,11 +231,10 @@ function loadGame(newGameName){
 						"game": newGameName
 					},
 					success: function(jsonObj) {
-						gameData = jsonObj;
-						currentGameName = newGameName;
-						setupHeader();
-						chrome.storage.local.set({'gameData': gameData});
-						chrome.storage.local.set({'currentGameName': newGameName});
+						ledger = jsonObj.ledger;
+						setupReplayHeader(ledger);						
+						saveData('ledger', ledger);
+						saveData('currentGameName', newGameName);
 					}
 				});
 			});
@@ -238,7 +243,7 @@ function loadGame(newGameName){
 }
 
 var lastRowIndex;
-function setupHeader(){	
+function setupReplayHeader(ledger){	
 	var url = window.location.href;
 	var hrefNext, hrefNext, hrefFirst, hrefLast, row, prevRow, nextRow;	
     var urlParts = url.split("/");
@@ -249,16 +254,16 @@ function setupHeader(){
 		urlParts = url.split("=");
 		row = parseInt(urlParts[1]);
 	} else {
-		row = gameData.ledger.length-1;
+		row = ledger.length-1;
 	}
 		
-	var maxRow = getMaxRow(gameData.ledger, row);
-	var minRow = getMinRow(gameData.ledger);
+	var maxRow = getMaxRow(ledger, row);
+	var minRow = getMinRow(ledger);
 	
 	if (chosen != undefined && isFaction(chosen)) {
 		prevRow = minRow;
 		for (var i = Math.min(row - 1, maxRow); i > minRow; i--) { 
-			if (gameData.ledger[i].faction == chosen) {
+			if (ledger[i].faction == chosen) {
 				prevRow = i;
 				faction = chosen;
 				break;
@@ -267,7 +272,7 @@ function setupHeader(){
 		
 		nextRow = maxRow;
 		for (var i = row + 1; i < maxRow; i++) { 
-			if (gameData.ledger[i].faction == chosen) {
+			if (ledger[i].faction == chosen) {
 				nextRow = i;
 				faction = chosen;
 				break;
@@ -275,25 +280,24 @@ function setupHeader(){
 		}
 	}
 		
+	var urlParts = url.split("=");
 	if (url.indexOf("max-row") != -1) {
-		url = url.split("=");
-		row = parseInt(url[1]);
-		hrefPrev = url[0] + "=" + (prevRow ? prevRow : Math.max((row - 1), minRow));
-		hrefNext = url[0] + "=" + (nextRow ? nextRow : Math.min((row + 1), maxRow));
+		row = parseInt(urlParts[1]);
+		hrefFirst = urlParts[0] + "=" + minRow;
+		hrefPrev = urlParts[0] + "=" + (prevRow ? prevRow : Math.max((row - 1), minRow));
+		hrefNext = urlParts[0] + "=" + (nextRow ? nextRow : Math.min((row + 1), maxRow));
+		hrefLast = urlParts[0] + "=" + maxRow;	
 	} else {
-		row = maxRow;
-		hrefPrev = url + "/max-row=" + (row - 1);
-		hrefNext = url;
+		hrefFirst = url + "/max-row=" + minRow;
+		hrefPrev = url + "/max-row=" + Math.max((maxRow - 1), minRow);
+		hrefNext = hrefLast = url + "/max-row=" + maxRow;
 	}
-	
-	hrefFirst = url[0] + "=" + minRow;
-	hrefLast = url[0] + "=" + maxRow;
 	
 	var jsInitChecktimer = setInterval(checkForJS_Finish, 111);
     function checkForJS_Finish () {
 		var lastLogTD;
 		if (("#ledger") != undefined) {
-			if (faction != null) {			
+			if (faction != null) {
 				if (lastRowIndex == null) {
 					lastLogTD = $("#ledger td:first-child:contains('" + faction + "')").last().parent().html();
 				} else {
@@ -309,6 +313,8 @@ function setupHeader(){
 					lastLogTD = $($("#ledger tr")[lastRowIndex - 1]).html();
 				}				
 			}
+			
+			$("#ledger button").click();
 		}
 		
         if (lastLogTD != undefined) {
@@ -324,6 +330,7 @@ function getMinRow(ledger) {
 			return i + 2;
 		}
 	}
+	return ledger.length;
 }
 function getMaxRow(ledger, row) {
 	if (ledger[ledger.length-1].commands != "score_resources") {
@@ -337,6 +344,7 @@ function getMaxRow(ledger, row) {
 			return i + 1;
 		}
 	}
+	return ledger.length;
 }
 
 function isFaction(faction) {
@@ -360,11 +368,11 @@ function setupReplayLinks(){
 }
 
 function loadReplayInfo() {
-	chrome.storage.local.get('replay', function(result) {
+	loadData('replay', function(result) {
 		var replay = (result.replay == undefined ? true : result.replay);
 		if (replay) {
 			setupReplayLinks();
-			chrome.storage.local.set({'replay': replay });
+			saveData('replay', replay);
 		}
 	});
 }
@@ -477,14 +485,6 @@ function setupOpponentsGamesLinks(url) {
 	});
 }
 
-function saveData(key, value) {
-	chrome.storage.local.set({key: value });
-}
-
-function loadData(key, callback) {
-	chrome.storage.local.get(key, callback);
-}
-
 function loadOpponentsFilter() {
 	loadData('opponentsFilter', function(result) {
 		var opponentsFilter = (result.opponentsFilter == undefined ? true : result.opponentsFilter);
@@ -503,6 +503,16 @@ function loadOpponentsFilter() {
 			saveData('opponentsFilter', opponentsFilter);
 		}
 	});
+}
+
+function saveData(key, value) {
+	var obj = {};
+	obj[key] = value;
+	chrome.storage.local.set(obj);
+}
+
+function loadData(key, callback) {
+	chrome.storage.local.get(key, callback);
 }
 
 $(function() {
