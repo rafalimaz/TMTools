@@ -107,6 +107,7 @@ function factionClick(e) {
     });
 }
 
+var round;
 function loadChart(chartData) {
 	var factionData = chartData.data;
 	var isLedger = chartData.ledger;
@@ -131,17 +132,22 @@ function loadChart(chartData) {
 		if (factionData.hasOwnProperty(key)) {
 			var dataPoints = [];	
 			for(var i = 0; i < factionData[key].length; i++){
+				var marker = isLedger ? getRoundMarker(factionData[key][i].game, factions[key].color) : getPositionMarker(factionData[key][i].position, factions[key].color);
 				dataPoints.push({
 					x: i+1, 
 					y: parseInt(factionData[key][i].score), 
-					indexLabel: isLedger ? "" : factionData[key][i].position,
+					indexLabel: isLedger ? marker.label : factionData[key][i].position,
 					color: factions[key].color,
 					toolTipContent: "Game: <a target='_blank' href = " + factionData[key][i].gameLink + " >" + factionData[key][i].game + "</a><br/>VP: {y}<br/>" + 
 					(isLedger ? factionData[key][i].action : "Position: {indexLabel}") + "<br/>Faction: " + factions[key].name,
+					markerType: marker.type,
+					markerColor: marker.color,
+					markerSize: marker.size
 				});
 			}
+			round = null;
 			data.push({
-			  type: "line",
+			  type: "spline",
 			  showInLegend: true,
 			  name: factions[key].name,
 			  color: factions[key].color,			  
@@ -154,6 +160,7 @@ function loadChart(chartData) {
 		}
 	}
 	chart = new CanvasJS.Chart("chartContainer", {
+		    animationEnabled: true,
 			creditHref: "",
 			creditText: "",
 			exportEnabled: true,
@@ -174,6 +181,21 @@ function loadChart(chartData) {
 			data: data
 		});
 	chart.render();
+}
+
+function getRoundMarker(nextRound, color) {
+	if (nextRound != round) {
+		round = nextRound;
+		return { type: "circle", color: color, size: 10, label: nextRound};
+	} 
+	return { type: "", color: "", size: "", label: ""};
+}
+
+function getPositionMarker(position, color) {
+	if (position == 1) {
+		return { type: "triangle", color: "green", size: 10, label: position};
+	} 
+	return { type: "cross", color: "red", size: "8", label: position};
 }
 
 $(document).ready(function(){
