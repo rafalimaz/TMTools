@@ -293,7 +293,7 @@ function setupReplayHeader(ledger){
 		hrefNext = hrefLast = url + "/max-row=" + maxRow;
 	}
 	
-	var jsInitChecktimer = setInterval(checkForJS_Finish, 111);
+	var jsInitChecktimer = setInterval(checkForJS_Finish, 500);
     function checkForJS_Finish () {
 		var lastLogTD;
 		if (("#ledger") != undefined) {
@@ -311,10 +311,12 @@ function setupReplayHeader(ledger){
 					lastLogTD = $($("#ledger tr").last()[0]).html();
 				} else {
 					lastLogTD = $($("#ledger tr")[lastRowIndex - 1]).html();
-				}				
+				}
 			}
 			
-			$("#ledger button").click();
+			if (lastLogTD == undefined) {
+				$("#ledger button").click();
+			}
 		}
 		
         if (lastLogTD != undefined) {
@@ -438,7 +440,7 @@ function loadOpponentGames(player, opponent) {
 }
 
 function setupOpponentsFilter(player) {
-	var jsInitChecktimer = setInterval(checkForJS_Finish, 111);
+	var jsInitChecktimer = setInterval(checkForJS_Finish, 300);
 	
 	function checkForJS_Finish () {
 		var opponentsTable = $("#opponents-table tr");
@@ -470,7 +472,7 @@ function setupOpponentsGamesLinks(url) {
 		var isAll = $(this).html() == "Games";
 		
 		if (allGamesHTML == null) {
-			var jsInitChecktimer = setInterval(checkForJS_Finish, 111);
+			var jsInitChecktimer = setInterval(checkForJS_Finish, 300);
 	
 			function checkForJS_Finish () {
 				allGamesHTML = $("#games-finished tr");
