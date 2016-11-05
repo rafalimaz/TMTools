@@ -327,7 +327,7 @@ function setupReplayHeader(ledger){
 }
 
 function getMinRow(ledger) {
-	for (var i = 0; i < ledger.length - 1; i++) {
+	for (var i = 0; i < ledger.length; i++) {
 		if (ledger[i].commands != undefined) {
 			return i + 2;
 		}
@@ -398,7 +398,7 @@ function filterGames(player, opponent, isAll) {
 	var filteredGames = [];
 	allGamesHTML.each(function() {
 		var game =  $(this).children('td').eq(0).html();
-		for (var i = index; i < opponentGames.length - 1; i++) {
+		for (var i = index; i < opponentGames.length; i++) {
 			if (game == opponentGames[i]) {
 				filteredGames.push($(this));
 				index++;
@@ -418,12 +418,15 @@ function loadOpponentGames(player, opponent) {
 		var callback2 = function(jsonObj2) {
 			var opponentGames = jsonObj2.games;
 			var filteredGames = [];
-			for (var i = 0; i < myGames.length - 1; i++) {
-				for (var j = 0; j < opponentGames.length - 1; j++) {
+			var k = 0;
+			for (var i = 0; i < myGames.length; i++) {
+				for (var j = k; j < opponentGames.length; j++) {
 					if (myGames[i].id == opponentGames[j].id) {
 						filteredGames.push(myGames[i].id);
+						k++;
+						break;
 					}
-				}
+				}				
 			}			
 			allOpponentGames[opponent] = filteredGames;
 			
