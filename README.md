@@ -57,6 +57,12 @@ It is possible to use TMTools without install the extension through Chrome Web S
 
 ### Changelog
 
+##### 1.0.4 Filter games by opponent (2016-11-09)
+  * Added markers representing rounds and win/lose on graphs
+  * Added opponent' filter on profile user page
+  * Added first and last links to replay area
+  * Improvements on replay feature
+
 ##### 1.0.3 Filter by faction on replay (2016-11-02)
   * Added replay filter by faction 
   * Added paypal donate button
