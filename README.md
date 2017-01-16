@@ -14,7 +14,7 @@ In order to use TMTools just install the extension from [Chrome Web Store](https
 
 ##### Development Mode
 
-It is possible to use TMTools without install the extension through Chrome Web Store. It is only need to download TMTools zip [Last Release] (https://github.com/rafalimaz/TMTools/archive/v1.0.3.zip) and do the steps as follows:
+It is possible to use TMTools without install the extension through Chrome Web Store. It is only need to download TMTools zip [Last Release] (https://api.github.com/repos/rafalimaz/tmtools/zipball) and do the steps as follows:
 
 1. Extract the contents somewhere
 2. In Chrome, open [extensions](chrome://extensions/) `chrome://extensions/`
@@ -57,6 +57,9 @@ It is possible to use TMTools without install the extension through Chrome Web S
 
 ### Changelog
 
+##### 1.0.5 Filter games by opponent (2016-11-09)
+  * Fixed a bug on replay feature
+  
 ##### 1.0.4 Filter games by opponent (2016-11-09)
   * Added markers representing rounds and win/lose on graphs
   * Added opponent' filter on profile user page
