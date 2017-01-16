@@ -27,7 +27,7 @@ function listGames(player, callback) {
 		
 		$.ajax({  
 			type: 'POST',
-			url: "http://terra.snellman.net/app/list-games",
+			url: "https://terra.snellman.net/app/list-games",
 			data: {
 				"mode": "other-user",
 				"status": "finished",
@@ -60,7 +60,7 @@ function getGamesInfo(message, sendResponse){
 					factionData[faction] = [];
 				}
 				if(games[i].aborted == 0){
-					factionData[faction].push({score: games[i].vp.toString(), position: games[i].rank.toString(), game: games[i].id, gameLink: 'http://terra.snellman.net' + games[i].link, dropped: games[i].dropped != 0});
+					factionData[faction].push({score: games[i].vp.toString(), position: games[i].rank.toString(), game: games[i].id, gameLink: 'https://terra.snellman.net' + games[i].link, dropped: games[i].dropped != 0});
 				}
 			}
 		}
@@ -224,8 +224,7 @@ function loadGame(newGameName) {
 				
 				$.ajax({  
 					type: 'POST',
-					async: false,
-					url: "http://terra.snellman.net/app/view-game/",
+					url: "https://terra.snellman.net/app/view-game/",
 					data: {
 						"csrf-token": token,
 						"game": newGameName

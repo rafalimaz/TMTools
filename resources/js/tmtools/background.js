@@ -22,11 +22,11 @@ function getCounter(token)
 	
 	$.ajax({  
 		type: 'GET',
-        url: "http://terra.snellman.net/app/list-games?mode=user&status=running&csrf-token=" + token,  
+        url: "https://terra.snellman.net/app/list-games?mode=user&status=running&csrf-token=" + token,
         success: function(jsonObj) 
 		{
 			var count = 0;
-			var link = "http://terra.snellman.net";
+			var link = "https://terra.snellman.net";
 			var games = jsonObj.games;
 			chrome.storage.local.get('alert', function (result) {
 				for (var i = 0; i < games.length; i++){
