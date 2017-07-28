@@ -24,8 +24,9 @@
   
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["resources/js/jquery/jquery-1.9.1.min.js", "resources/js/tmtools/content.js", "resources/js/canvasjs/canvasjs.min.js"]
+      "matches": ["http://*/*", "https://*/*", "https://terra.snellman.net/*"],
+      "js": ["resources/js/jquery/jquery-1.9.1.min.js", "resources/js/tmtools/content.js", "resources/js/canvasjs/canvasjs.min.js"],
+      "css": ["resources/css/snellman.css"]
     }
   ]  
 }

@@ -63,6 +63,11 @@ function opponentsFilterClick(e){
 	chrome.storage.local.set({'opponentsFilter':  checked});
 }
 
+function lastMovesClick(e){
+	var checked = document.querySelector('#cbxLastMoves').checked;
+	chrome.storage.local.set({'lastMoves':  checked});
+}
+
 function playLinkClick(e) {
     chrome.extension.sendMessage({directive: "popup-click", stopSound: true}, function(response) { });
 }
@@ -231,6 +236,10 @@ $(document).ready(function(){
 		$('#cbxOpponentsFilter').prop('checked', result.opponentsFilter == undefined ? true : result.opponentsFilter);
 	});
 	
+	chrome.storage.local.get('lastMoves', function (result) {
+		$('#cbxLastMoves').prop('checked', result.lastMoves == undefined ? true : result.lastMoves);
+	});
+
 	$("#byPlayer").change(function(){
 		$('#playerName').prop("disabled", false);
 		chrome.storage.local.set({'filter': "byPlayer" });
@@ -252,4 +261,5 @@ $(document).ready(function(){
 	document.getElementById('soundUpdate').addEventListener('focusout', soundUpdateFocusOut);
 	document.getElementById('replayEnabled').addEventListener('click', replayEnabledClick);
 	document.getElementById('cbxOpponentsFilter').addEventListener('click', opponentsFilterClick);
+	document.getElementById('cbxLastMoves').addEventListener('click', lastMovesClick);
 });

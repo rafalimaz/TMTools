@@ -7,8 +7,8 @@ body {
 }
 
 .options {
-	width: 375px; 
-	float: left; 
+	width: 640px;
+	float: left;
 	height: 40px;
 }
 
@@ -25,27 +25,17 @@ body {
 }
 
 .filter {
-	float: left; 
-	height: 40px;
+	height: 30px;
 }
 
-.player {
-	float: left; 
-	height: 40px;
-}
-
-.player div {
-	margin-top:0px;
-}
-
-.player input {
+#playerName {
 	width: 80px;
 }
 
 .play {
 	width: 108px;
-	float: left; 
 	height: 40px;
+	float: left;
 }
 
 .play a {
@@ -81,12 +71,13 @@ body {
 }
 
 .statistics {
-	width: 640px; 
+	width: 640px;
+	height: 432px;
 	float: left;
 }
 
 .statistics #chartContainer {
-	height: 370px; 
+	height: 340px;
 	width: 100%;
 }
 
@@ -94,44 +85,56 @@ body {
 	display: block; 
 	visibility: hidden;
 }
+
 .red {
 	color: rgb(0, 0, 0); background-color: rgb(240, 128, 128);
-}	
+}
+
 .black {
 	color: rgb(192, 192, 192); background-color: rgb(64, 64, 64);
-}	
+}
+
 .green {
 	color: rgb(0, 0, 0); background-color: rgb(128, 240, 128);
-}	
+}
+
 .yellow {
 	color: rgb(0, 0, 0); background-color: rgb(240, 240, 128);
-}			
+}
+
 .brown {
 	color: rgb(0, 0, 0); background-color: rgb(176, 128, 64);
-}	
+}
+
 .gray {
 	color: rgb(0, 0, 0); background-color: rgb(192, 192, 192);
-}	
+}
+
 .blue {
 	color: rgb(0, 0, 0); background-color: rgb(96, 192, 240);
 }
+
 .orange{
 	color: rgb(0, 0, 0); background-color: rgb(240, 192, 96);
 }
+
 .white{
 	color: rgb(0, 0, 0); background-color: rgb(224, 240, 255);
 }
+
 .neutral{
 	color: rgb(0, 0, 0); background-color: rgb(255, 235, 205);
 }
+
 .transparent {
 	color: inherit;
 }
-	
+
 input[type=checkbox]{
 	position:relative; 
 	top:2px
 }
+
 .footer a {
 	font-size: 10px;
 }

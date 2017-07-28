@@ -9,23 +9,15 @@
   </head>
   <body>
 	<fieldset class="options">	
-		<legend>Options</legend>
+		<legend>Enable Options</legend>
 		<label for="soundAlert" title="Enable sound alert when it's your turn"><input id="soundAlert" type="checkbox" checked="checked"/>Sound Alert</label> 
 		<label for="soundUpdate" title="Set update rate (in seconds) for searching new games" class="label-sound-update">
 			<input id="soundUpdate" type="text" value="30"/><span>Update rate (s)</span>
 		</label> 
 		<label for="replayEnabled" title="Add prev/next links to game header"><input id="replayEnabled" type="checkbox" checked="checked"/>Replay</label>
 		<label for="cbxOpponentsFilter" title="Add links to filter opponent's games"><input id="cbxOpponentsFilter" type="checkbox" checked="checked"/>Opponent's filter</label>
+		<label for="cbxLastMoves" title="Show last moves next to canvas"><input id="cbxLastMoves" type="checkbox" checked="checked"/>Last Moves</label>
 	</fieldset>	
-	<fieldset class="filter">	
-		<legend>Filter</legend>
-		<label for="byPlayer" title="Filter games by searched player" ><input id="byPlayer" name="filter" type="radio" value="byPlayer"/>By Player</label> 		
-		<label for="bySite" title="Filter games on site page"><input id="bySite" name="filter" type="radio" value="bySite"/>By Site</label> 
-	</fieldset>	
-	<fieldset class="player">	
-		<legend>Player</legend>
-		<div><input type="text" id="playerName" /></div>
-	</fieldset>
 	<fieldset class="play">	
 		<legend>Play</legend>
 		<a id="playLink" href="http://terra.snellman.net" target="_blank">Go to site</a>
@@ -57,6 +49,11 @@
 	</fieldset>	
 	<fieldset class="statistics">
 		<legend>Statistics</legend>
+		<div class="filter" align="right">
+			<label for="bySite" title="Filter games on site page"><input id="bySite" name="filter" type="radio" value="bySite"/>Filter by Site</label>
+			<label for="byPlayer" title="Filter games by searched player" ><input id="byPlayer" name="filter" type="radio" value="byPlayer"/>Filter by Player</label>
+			<input type="text" id="playerName" />
+		</div>
 		<div id="chartContainer">
 		</div>
 		<span id="oneLeechSpan">One Leech: <strong id="oneLeech"></strong></span>

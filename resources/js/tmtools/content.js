@@ -510,6 +510,51 @@ function loadOpponentsFilter() {
 	});
 }
 
+function loadLastMoves() {
+	loadData('lastMoves', function(result) {
+		var lastMoves = (result.lastMoves == undefined ? true : result.lastMoves);
+		if (!lastMoves) {
+			return;
+		}
+
+		var jsInitChecktimer = setInterval(checkForJSLedger_Finish, 300);
+		function checkForJSLedger_Finish () {
+			var nextFaction = getActionRequiredFaction();
+			if (nextFaction == undefined) {
+				return;
+			}
+
+			var lines = document.querySelectorAll('#ledger tr');
+			if (lines == undefined || lines.length == 0) {
+				return;
+			}
+
+			clearInterval(jsInitChecktimer);
+			var linesToAppend = [];
+			for (var i = lines.length - 1; i > -1; i--) {
+				linesToAppend.push($(lines[i]).clone());
+				var faction = lines[i].children[0].innerHTML;
+				if (faction.toLowerCase() === nextFaction && i != lines.length - 1) {
+					break;
+				}
+			}
+			if (linesToAppend.length > 0) {
+				var lastMovesStyle = "background-color:#eee;margin-top:10px;margin-bottom:10px;padding:5px;border-style:solid;border-width:1px;max-width:1045px;";
+				var div = $("<div id='last_moves' style=" + lastMovesStyle + "></div>");
+				var table = $("<table class='ledger' style='padding-bottom:0px'></table>").append(linesToAppend.reverse());
+				div.append(table);
+				$(div).insertBefore("#action_required");
+			}
+		}
+		saveData('lastMoves', lastMoves);
+	});
+}
+
+function getActionRequiredFaction() {
+	var faction = $($('#action_required span').filter(function () { return $(this).text() === "should take an action"; }).prev().prev().find('span')[0]).find('span').text().trim();
+	return faction.replace(/\s/g, '').toLowerCase();
+}
+
 function saveData(key, value) {
 	var obj = {};
 	obj[key] = value;
@@ -523,4 +568,5 @@ function loadData(key, callback) {
 $(function() {
 	loadReplayInfo();
 	loadOpponentsFilter();
+	loadLastMoves();
 });
