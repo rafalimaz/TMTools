@@ -32,7 +32,7 @@ function listGames(player, callback) {
 				"mode": "other-user",
 				"status": "finished",
 				"args": player,
-				"csrf-token": token				
+				"csrf-token": token
 			},
 			success: function(jsonObj) 
 			{
@@ -116,14 +116,14 @@ function getGameData(message){
 			var content = "";
 			var match = false;
 			var faction = "";
-			var logMatch = false;			
+			var logMatch = false;
 			if(ledger){
 				content = lines[i].children[0].innerHTML;
 				for(var j=1; j<7; j++){
 					logMatch = logMatch || lines[i].id == "round" + j + "income";
 					if(logMatch || lines[i].id == "scoringfirecult"){
 						lastRoundLine = lines[i];
-						updateMoves(factionData, maxMoves);	
+						updateMoves(factionData, maxMoves);
 						break;
 					}
 				}
@@ -132,23 +132,25 @@ function getGameData(message){
 				content = lines[i].children[1] ? lines[i].children[1].innerHTML : undefined;
 				match = (content && content.indexOf(message.faction) != -1) || message.faction == "all";
 			}
-			
+
 			lines[i].style.display = match ? "table-row" : "none";
 			
 			if(match){
-				if(ledger && lines[i].children[2] && lines[i].children[2].innerHTML.indexOf("VP") != -1){					
+				if(ledger && lines[i].children[2] && lines[i].children[2].innerHTML.indexOf("VP") != -1){
 					var scoreData = lines[i].children[2].innerHTML.split(" ");
 					var faction = lines[i].children[0] ? lines[i].children[0].innerHTML : undefined;
 					var leech = lines[i].children[9] ? lines[i].children[9].innerHTML : undefined;
 					var game = lastRoundLine.children[1].innerHTML.split(" ");
 					var gameLink = lastRoundLine.children[2].children[0].href;
 					var action = lines[i].children[14] ? lines[i].children[14].innerHTML : undefined;
-				
-					if(faction){
+
+					if (faction) {
 						if(!factionData[faction]){
 							factionData[faction] = [];
 						}
-						factionData[faction].push({score: scoreData[0], game: (game[0] == "Scoring" ? game[0] : game[0] + " " + game[1]), gameLink: gameLink, action: action});
+
+						var maxScore = getMaxScore(factionData[faction], scoreData[0]);
+						factionData[faction].push({score: scoreData[0], maxScore: maxScore, game: (game[0] == "Scoring" ? game[0] : game[0] + " " + game[1]), gameLink: gameLink, action: action});
 						maxMoves = Math.max(maxMoves, factionData[faction].length);
 					}
 					
@@ -161,16 +163,18 @@ function getGameData(message){
 					} 
 				}
 				else if(!ledger && lines[i].children[6] && lines[i].children[6].innerHTML.indexOf("vp") != -1){
-					var scoreData = lines[i].children[6].innerHTML.split(" ");					
+					var scoreData = lines[i].children[6].innerHTML.split(" ");
 					var faction = sameLine ? "all" : (lines[i].children[1] ? lines[i].children[1].children[0].innerHTML : undefined);
 					var game = lines[i].children[0] ? lines[i].children[0].innerHTML : undefined;
 					var gameLink = lines[i].children[1] ? lines[i].children[1].children[0].href : undefined;
-						
+
 					if(faction){
 						if(!factionData[faction]){
 							factionData[faction] = [];
 						}
-						factionData[faction].push({score: scoreData[0], position: scoreData[2].substring(1, scoreData[2].length-1), game: game, gameLink: gameLink});
+
+						var maxScore = getMaxScore(factionData[faction], scoreData[0]);
+						factionData[faction].push({score: scoreData[0], maxScore: maxScore, position: scoreData[2].substring(1, scoreData[2].length-1), game: game, gameLink: gameLink});
 					}
 				}
 			}
@@ -184,8 +188,14 @@ function getGameData(message){
 				}
 			}
 		}
-	}		
+	}
 	return {data: factionData, ledger: ledger != undefined, oneLeech: oneLeech, multLeech: multLeech};
+}
+
+function getMaxScore(factionData, currentScore) {
+	var maxScore = factionData ? factionData.maxScore : null;
+	maxScore = maxScore && currentScore < maxScore ? maxScore : currentScore;
+	return maxScore;
 }
 
 function updateMoves(factionData, maxMoves){
@@ -205,13 +215,13 @@ function updateMoves(factionData, maxMoves){
 function loadGame(newGameName) {
 	loadData({'ledger':[]}, function(result) {
 		var ledger = result.ledger == undefined ? null : result.ledger;
-		
+
 		loadData('currentGameName', function(result) {	
 			if (result.currentGameName != undefined && result.currentGameName == newGameName) {
 				setupReplayHeader(ledger);
 				return;
 			}
-			
+
 			loadData('token', function (result) {
 				var token;
 				if(!result.token){
@@ -221,7 +231,7 @@ function loadGame(newGameName) {
 						return;
 					}
 				}
-				
+
 				$.ajax({  
 					type: 'POST',
 					url: "https://terra.snellman.net/app/view-game/",
@@ -231,7 +241,7 @@ function loadGame(newGameName) {
 					},
 					success: function(jsonObj) {
 						ledger = jsonObj.ledger;
-						setupReplayHeader(ledger);						
+						setupReplayHeader(ledger);
 						saveData('ledger', ledger);
 						saveData('currentGameName', newGameName);
 					}
@@ -425,8 +435,8 @@ function loadOpponentGames(player, opponent) {
 						k++;
 						break;
 					}
-				}				
-			}			
+				}
+			}
 			allOpponentGames[opponent] = filteredGames;
 			
 			filterGames(player, opponent, false);

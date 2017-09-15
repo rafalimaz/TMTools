@@ -90,7 +90,7 @@ function soundUpdateFocusOut(e) {
 }
 
 function validateSoundUpdate(soundUpdate) {
-	if (isNaN(parseInt(soundUpdate))) {		
+	if (isNaN(parseInt(soundUpdate))) {
 		alert("Update rate must be an integer.");
 		return false;
 	} 
@@ -133,14 +133,20 @@ function loadChart(chartData) {
 		document.querySelector("#multLeechSpan").style.visibility = "hidden";
 	}
 	
-	for (var key in factionData) {	
+	var maxScore = 0;
+	var minScore = 9999;
+	for (var key in factionData) {
 		if (factionData.hasOwnProperty(key)) {
-			var dataPoints = [];	
+			var dataPoints = [];
+			var score;
 			for(var i = 0; i < factionData[key].length; i++){
+				score = parseInt(factionData[key][i].score);
+				maxScore = score > maxScore ? score : maxScore;
+				minScore = score < minScore ? score : minScore;
 				var marker = isLedger ? getRoundMarker(factionData[key][i].game, factions[key].color) : getPositionMarker(factionData[key][i].position, factions[key].color);
 				dataPoints.push({
-					x: i+1, 
-					y: parseInt(factionData[key][i].score), 
+					x: i+1,
+					y: score,
 					indexLabel: isLedger ? marker.label : factionData[key][i].position,
 					color: factions[key].color,
 					toolTipContent: "Game: <a target='_blank' href = " + factionData[key][i].gameLink + " >" + factionData[key][i].game + "</a><br/>VP: {y}<br/>" + 
@@ -155,15 +161,17 @@ function loadChart(chartData) {
 			  type: "spline",
 			  showInLegend: true,
 			  name: factions[key].name,
-			  color: factions[key].color,			  
+			  color: factions[key].color,
 			  dataPoints: dataPoints,
-			  indexLabelFontSize: 13			  
+			  indexLabelFontSize: 13
 			});
 			if(key == "all"){
 				all = true;
 			}
 		}
 	}
+	var maximum = Math.ceil((maxScore+1)/20)*20;
+	var minimum = Math.ceil(minScore/20)*20;
 	chart = new CanvasJS.Chart("chartContainer", {
 		    animationEnabled: true,
 			creditHref: "",
@@ -180,8 +188,8 @@ function loadChart(chartData) {
 			},
 			axisY:{
 				interval: 20,
-				maximum: 220,
-				minimum: isLedger ? 0 : 20
+				maximum: maximum,
+				minimum: isLedger ? 0 : (minScore > 0 ? minimum - 20 : 0)
 			},
 			data: data
 		});
