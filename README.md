@@ -57,7 +57,7 @@ It is possible to use TMTools without install the extension through Chrome Web S
 
 ### Changelog
 
-##### 1.0.6 Last Moves (to be released)
+##### 1.0.6 Last Moves (2017-09-15)
   * Added last moves to game page
   * Some fixes on graphs (max and min value)
   * Added help icons and improved tooltips
