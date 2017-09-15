@@ -18,8 +18,12 @@ var _gaq = _gaq || [];
 _gaq.push(['_setAccount', _AnalyticsCode]);
 _gaq.push(['_trackPageview']);
 
-function trackButton(e) {
+function trackClick(e) {
   _gaq.push(['_trackEvent', e.target.id, 'clicked']);
+};
+
+function trackHover(e) {
+  _gaq.push(['_trackEvent', e.target.id, 'hover']);
 };
   
 (function() {
@@ -30,6 +34,12 @@ function trackButton(e) {
   var s = document.getElementsByTagName('script')[0];
   s.parentNode.insertBefore(ga, s);
   
-  document.getElementById('playLink').addEventListener('click', trackButton);
-  document.getElementById('donateLink').addEventListener('click', trackButton);
+  document.getElementById('playLink').addEventListener('click', trackClick);
+  
+  document.getElementById('helpOptions').addEventListener('mouseover', trackHover);
+  document.getElementById('helpFilterBySite').addEventListener('mouseover', trackHover);
+  document.getElementById('helpFilterByPlayer').addEventListener('mouseover', trackHover);
+  
+  document.getElementById('donateLink').addEventListener('click', trackClick);
+  document.getElementById('donateLink').addEventListener('mouseover', trackHover);
 })();

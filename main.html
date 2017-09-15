@@ -10,20 +10,33 @@
   <body>
 	<fieldset class="options">	
 		<legend>Enable Options</legend>
+		<img id="helpOptions" src="../resources/img/icons/help.png" style="width: 18px;position: relative;top: 4px; left: 2px" title="Please hover the mouse over each feature name to get info/help about how to use:
+a) Replay
+b) Opponent's Filter
+c) Last Moves" />
 		<label for="soundAlert" title="Enable sound alert when it's your turn"><input id="soundAlert" type="checkbox" checked="checked"/>Sound Alert</label> 
 		<label for="soundUpdate" title="Set update rate (in seconds) for searching new games" class="label-sound-update">
 			<input id="soundUpdate" type="text" value="30"/><span>Update rate (s)</span>
 		</label> 
-		<label for="replayEnabled" title="Add prev/next links to game header"><input id="replayEnabled" type="checkbox" checked="checked"/>Replay</label>
-		<label for="cbxOpponentsFilter" title="Add links to filter opponent's games"><input id="cbxOpponentsFilter" type="checkbox" checked="checked"/>Opponent's filter</label>
-		<label for="cbxLastMoves" title="Show last moves next to canvas"><input id="cbxLastMoves" type="checkbox" checked="checked"/>Last Moves</label>
+		<label for="replayEnabled" title="Add prev/next links to game header
+a) Open Game page link (ex: https://terra.snellman.net/game/Mlmlmlmlml03)
+b) Check if the replay links are added to header
+c) Click on the links to navigate"><input id="replayEnabled" type="checkbox" checked="checked"/>Replay</label>
+		<label for="cbxOpponentsFilter" title="Add links to filter opponent's games
+a) Go to Opponent's tab: https://terra.snellman.net/player/rafalimaz#opponents
+b) On the Opponents Statistics table, check if links appear on Games column
+c) Click on some number of games for some opponent"><input id="cbxOpponentsFilter" type="checkbox" checked="checked"/>Opponent's filter</label>
+		<label for="cbxLastMoves" title="Show last moves next to canvas 
+a) Open Game page link (ex: https://terra.snellman.net/game/Mlmlmlmlml03)
+b) Check if the last moves are being showed
+Obs: if you find 'Recent Moves' button better, just turn off this feature"><input id="cbxLastMoves" type="checkbox" checked="checked"/>Last Moves</label>
 	</fieldset>	
 	<fieldset class="play">	
 		<legend>Play</legend>
 		<a id="playLink" href="http://terra.snellman.net" target="_blank">Go to site</a>
 	</fieldset>	
 	<fieldset class="factions">	
-		<legend>Faction</legend>	
+		<legend>Factions</legend>
 		<div id="acolytes" class="orange">Acolytes</div>
 		<div id="alchemists" class="black">Alchemists</div>
 		<div id="auren" class="green">Auren</div>
@@ -50,7 +63,17 @@
 	<fieldset class="statistics">
 		<legend>Statistics</legend>
 		<div class="filter" align="right">
+			<img id="helpFilterBySite" src="../resources/img/icons/help.png" style="width: 18px;position: relative;top: 2px; left: 2px" title="1) How to filter games on site: 
+ a) Open your finished games tab (ex: https://terra.snellman.net/player/rafalimaz#finished) 
+ or open some game (ex: https://terra.snellman.net/game/Mlmlmlmlml03)
+ b) Open TMTools and select 'Filter by Site'
+ c) On TMTools Factions area, click on a faction present on the games list/selected game or click on 'All' button" />
 			<label for="bySite" title="Filter games on site page"><input id="bySite" name="filter" type="radio" value="bySite"/>Filter by Site</label>
+			<img id="helpFilterByPlayer" src="../resources/img/icons/help.png" style="width: 18px;position: relative;top: 2px; left: 2px" title="1) How to filter games by player: 
+ a) Open terra.snellman.net site on Chrome
+ b) Open TMTools and select 'Filter by Player'
+ c) Type some player login (ex: Xevoc)
+ d) On TMTools Factions area, click on a faction or 'All' button" />
 			<label for="byPlayer" title="Filter games by searched player" ><input id="byPlayer" name="filter" type="radio" value="byPlayer"/>Filter by Player</label>
 			<input type="text" id="playerName" />
 		</div>
@@ -59,14 +82,19 @@
 		<span id="oneLeechSpan">One Leech: <strong id="oneLeech"></strong></span>
 		<span id="multLeechSpan">Multiple Leech: <strong id="multLeech"></strong></span>
 		<div class="footer" align="center">	
-			<a href="http://github.com/rafalimaz/TMTools" target="_blank">TMTools</a> |
-			<a href="http://boardgamegeek.com/thread/1305425/tmtools-chrome-extension-snellman-site" target="_blank">Help/Questions</a> |
+			<a href="https://github.com/rafalimaz/TMTools/issues/new" target="_blank">Feature Request</a> |	
+			<a href="http://github.com/rafalimaz/TMTools" target="_blank">TMTools GitHub</a> |
+			<a href="http://boardgamegeek.com/thread/1305425/tmtools-chrome-extension-snellman-site" target="_blank">BGG Thread</a> |
 			<a href="http://boardgamegeek.com/filepage/104541/terra-mystica-strategy-reference-guide" target="_blank">TM Strategy Guide</a> |
 			<a href="http://lodev.org/tmai/" target="_blank">TM AI</a>
+			
 			<!--<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JLVRS65YBVS5U&lc=BR&item_name=TM%20Tools&item_number=tmtools&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted">Help Us</a>-->
 		</div>
 		<div align="right">
-			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" title="Help the developer" target="_blank" style="height:0;">
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" title="This tool was developed by me, Rafael Lima,
+without any payments. If you really like TMTools
+maybe you can make a donation as an incentive 
+for continuous working. Thank you :)" target="_blank" style="height:0;">
 				<input type="hidden" name="cmd" value="_s-xclick">
 				<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
 				<input id="donateLink" type="image" style="position: relative; bottom: 18px; left: 5px;" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
