@@ -9,7 +9,16 @@ body {
 .options {
 	width: 640px;
 	float: left;
-	height: 40px;
+	height: 100px;
+}
+
+.options label {
+	display: table;
+}
+
+.options td {
+    vertical-align: top;
+    padding-right: 30px;
 }
 
 .label-sound-update {
@@ -34,17 +43,20 @@ body {
 
 .play {
 	width: 108px;
-	height: 40px;
+	height: 100px;
 	float: left;
 }
 
 .play a {
-	margin-left: 28px;
+    margin-left: 28px;
+    position: relative;
+    top: 30px;
 }
 
 .factions {
-	float: right; 
 	display: inline-block;
+    height: 435px;
+    padding-top: 10px;
 }
 
 .factions div {
@@ -72,12 +84,12 @@ body {
 
 .statistics {
 	width: 640px;
-	height: 432px;
+	height: 440px;
 	float: left;
 }
 
 .statistics #chartContainer {
-	height: 340px;
+	height: 350px;
 	width: 100%;
 }
 
@@ -131,10 +143,24 @@ body {
 }
 
 input[type=checkbox]{
-	position:relative; 
+	position:relative;
 	top:2px
 }
 
-.footer a {
-	font-size: 10px;
+.footer 
+{
+    margin-left: 18px;
+    margin-top: 5px;
+    font-size: 10px;
+}
+
+.footer span{
+	font-weight: bold;
+}
+
+.donate {
+    float: right;
+    position: relative;
+    top: 1px;
+    margin-right: 29px;
 }

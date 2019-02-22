@@ -50,7 +50,24 @@ function soundAlertClick(e){
 	var checked = document.querySelector('#soundAlert').checked;
 	chrome.storage.local.set({'alert':  checked});
 	chrome.extension.sendMessage({directive: "popup-click" , stopSound: !checked }, function(response) { });
-	$('#soundUpdate').prop("disabled", !checked);
+    //TODO check all before disable Update Rate
+	//$('#soundUpdate').prop("disabled", !checked);
+}
+
+function notifyOthersClick(e){
+	var checked = document.querySelector('#notifyOthers').checked;
+	chrome.storage.local.set({'notifyOthers':  checked});
+	chrome.extension.sendMessage({directive: "popup-click" , stopSound: !checked }, function(response) { });
+    //TODO check all before disable Update Rate
+	//$('#soundUpdate').prop("disabled", !checked);
+}
+
+function notifyChatClick(e){
+	var checked = document.querySelector('#notifyChat').checked;
+	chrome.storage.local.set({'notifyChat':  checked});
+	chrome.extension.sendMessage({directive: "popup-click" , stopSound: !checked }, function(response) { });
+    //TODO check all before disable Update Rate
+	//$('#soundUpdate').prop("disabled", !checked);
 }
 
 function replayEnabledClick(e){
@@ -233,7 +250,25 @@ $(document).ready(function(){
 	chrome.storage.local.get('alert', function (result) {
 		var alert = (result.alert == undefined ? true : result.alert);
 		$('#soundAlert').prop('checked', alert);
-		$('#soundUpdate').prop("disabled", !alert);
+
+        //TODO check all notifications to disable soundUpdate 
+		//$('#soundUpdate').prop("disabled", !alert);
+	});
+    
+    chrome.storage.local.get('notifyOthers', function (result) {
+		var notifyOthers = (result.notifyOthers == undefined ? true : result.notifyOthers);
+		$('#notifyOthers').prop('checked', notifyOthers);
+
+        //TODO check all notifications to disable soundUpdate 
+		//$('#soundUpdate').prop("disabled", !alert);
+	});
+    
+    chrome.storage.local.get('notifyChat', function (result) {
+		var notifyChat = (result.notifyChat == undefined ? true : result.notifyChat);
+		$('#notifyChat').prop('checked', notifyChat);
+
+        //TODO check all notifications to disable soundUpdate 
+		//$('#soundUpdate').prop("disabled", !alert);
 	});
 	
 	chrome.storage.local.get('replay', function (result) {
@@ -266,6 +301,8 @@ $(document).ready(function(){
 	document.getElementById('playLink').addEventListener('click', playLinkClick);
 	document.getElementById('playerName').addEventListener('focusout', playerNameFocusOut);
 	document.getElementById('soundAlert').addEventListener('click', soundAlertClick);
+    document.getElementById('notifyOthers').addEventListener('click', notifyOthersClick);
+    document.getElementById('notifyChat').addEventListener('click', notifyChatClick);
 	document.getElementById('soundUpdate').addEventListener('focusout', soundUpdateFocusOut);
 	document.getElementById('replayEnabled').addEventListener('click', replayEnabledClick);
 	document.getElementById('cbxOpponentsFilter').addEventListener('click', opponentsFilterClick);

@@ -11,10 +11,10 @@ function loadCounter(){
     });
 }
 
-var audio;
+var audio = new Audio("resources/sound/alert.mp3");
 function getCounter(token)
 {
-	if(token){
+	if (token) {
 		chrome.storage.local.set({'token': token});
 	} else {
 		return;
@@ -28,27 +28,37 @@ function getCounter(token)
 			var count = 0;
 			var link = "https://terra.snellman.net";
 			var games = jsonObj.games;
-			chrome.storage.local.get('alert', function (result) {
-				for (var i = 0; i < games.length; i++){
-					if(games[i].action_required == 1 ||  games[i].unread_chat_messages > 0){
-						count += 1;
-						if(count == 1){
-							link += games[i].link;
-							if(!audio) {
-								audio = new Audio("resources/sound/alert.mp3");
-							}
-							if(result.alert == undefined || result.alert){
-								audio.play();
-							}
-						}
-					}
-				}
-				
-				if(audio && count == 0){
-					audio.pause();
-				}				
-				chrome.storage.local.set({'playLink': link });
-				chrome.browserAction.setBadgeText({text: count.toString()});
+            var notifyAction = false;
+            var notifyOthers = false;
+            var notifyChat = false;
+            
+            chrome.storage.local.get('alert', function (result) {
+                for (var i = 0; i < games.length; i++){
+                    if (games[i].action_required == 1) {
+                        count += 1;
+                        link += games[i].link;
+                    }
+
+                    if (games[i].unread_chat_messages > 0) {
+                        notifyChat = true;
+                    }
+                }
+
+                notifyAction = count > 0 && (result.alert == undefined || result.alert);
+                chrome.storage.local.set({'playLink': link });
+                chrome.browserAction.setBadgeText({text: count.toString()});
+
+                chrome.storage.local.get('notifyChat', function (result) {
+                    if (result.notifyChat != undefined && !result.notifyChat){
+                        return;
+                    }
+                    
+                    if (notifyChat || notifyAction) {
+                        audio.play();
+                    } else {
+                        audio.pause();
+                    }
+                });
 			});
 		},
 		error: function(data) {

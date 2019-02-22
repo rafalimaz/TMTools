@@ -37,8 +37,9 @@ function trackHover(e) {
   document.getElementById('playLink').addEventListener('click', trackClick);
   
   document.getElementById('helpOptions').addEventListener('mouseover', trackHover);
-  document.getElementById('helpFilterBySite').addEventListener('mouseover', trackHover);
-  document.getElementById('helpFilterByPlayer').addEventListener('mouseover', trackHover);
+  document.getElementById('helpStatistics').addEventListener('mouseover', trackHover);
+  document.getElementById('bySite').addEventListener('mouseover', trackHover);
+  document.getElementById('byPlayer').addEventListener('mouseover', trackHover);
   
   document.getElementById('donateLink').addEventListener('click', trackClick);
   document.getElementById('donateLink').addEventListener('mouseover', trackHover);
